@@ -12,6 +12,7 @@
 
 	<link rel="icon" href={favicon} />
 	<link rel="stylesheet" href="/styles/global.css" />
+	<link rel="stylesheet" href="/styles/anim.css" />
 </svelte:head>
 
 <Background />

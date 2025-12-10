@@ -38,6 +38,10 @@ a:hover {
     opacity: 0.8;
 }
 
+#site-content {
+    animation: fade-in 2s;
+}
+
 .panel {
     background-color: var(--panel);
     border-radius: 10px;

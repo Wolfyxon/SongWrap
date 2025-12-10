@@ -7,7 +7,9 @@
 </script>
 
 <main>
-    {@render children()}
+    <div id="site-content">
+        {@render children()}
+    </div>
 
     <Footer />
 </main>

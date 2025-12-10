@@ -48,19 +48,7 @@
 
 </script>
 
-<style>
-    @keyframes flash {
-        0% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0.5;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-    
+<style>    
     .file-upload {
         text-align: center;
         border: var(--panel-outline) 2px solid;
