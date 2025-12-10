@@ -17,7 +17,7 @@
 
         balls[i] = {
             color: `var(--color${colorLetter})`,
-            animTime: randi(20, 60),
+            animTime: randi(20, 40),
             angleOffset: randi(-360, 360),
             x: randf(-50, 100),
             y: randf(-50, 100)
