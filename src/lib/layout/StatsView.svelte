@@ -1,4 +1,5 @@
 <script lang="ts">
+    import SongView from "$lib/comp/SongView.svelte";
     import type { Stats } from "$lib/stats";
 
     export let stats: Stats;
@@ -13,6 +14,7 @@
     }
 
     #stats-view-content {
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -26,9 +28,9 @@
         <h1>Your favorite songs</h1>
 
         <!-- TOOD: make it fancy -->
-        <ol style="flex: 0.5">
+        <ol style="flex: 0.5; width: 100%; max-width: 500px">
             {#each stats.data.songs.slice(0, 5) as song, index }
-                <li>{song.title} - {song.artist}: {song.totalPlays} plays</li>
+                <SongView data={song} />
             {/each}
         </ol>
     </div>

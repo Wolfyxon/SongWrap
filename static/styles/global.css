@@ -5,6 +5,7 @@
 
     --panel: rgba(48, 48, 48, 0.6);
     --panel-outline: rgb(83, 83, 83);
+    --panel-dark: rgb(19, 19, 19);
 }
 
 body, html {
