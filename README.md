@@ -1,38 +1,26 @@
-# sv
+# SongWrap
+A website for showing a summary of your music listening, inspired by Spotify Wrapped.
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+[Visit the site](https://wolfyxon.github.io/SongWrap)
 
-## Creating a project
+## Gathering the stats
+The following projects can gather the stats:
+- [AudaciousStats](https://github.com/Wolfyxon/AudaciousStats): for Audacious media player
 
-If you're seeing this, you've probably already done this step. Congrats!
+You can also make your own project that will do that. See the format specification below.
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Data format
+This is an example stat file:
 
-# create a new project in my-app
-npx sv create my-app
+```json
+{
+   "formatVersion": 1,
+   "songs": [
+      {
+          "title": "Du Hast",
+          "artist": "Rammstein",
+          "totalPlays": 87
+      }
+   ]
+}
 ```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
