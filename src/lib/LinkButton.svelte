@@ -1,6 +1,8 @@
 <script lang="ts">
     export let text: string;
+    export let id: string | undefined = undefined;
     export let onClick: () => any = () => {};
+    
 </script>
 
 <style>

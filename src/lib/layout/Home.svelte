@@ -1,5 +1,7 @@
 <script lang="ts">
     import FileUpload from "$lib/comp/FileUpload.svelte";
+    import LinkButton from "$lib/LinkButton.svelte";
+    import { sampleStats } from "$lib/sampleStats";
     import { Stats, type StatsData } from "$lib/stats";
 
     export let setStats: (stats: Stats) => any;
@@ -30,6 +32,7 @@
 </div>
 
 <FileUpload label="Upload a stat file" onDropped={filesDropped} />
+<LinkButton text="Try a sample" onClick={() => setStats(new Stats(sampleStats))}/>
 
 <div>
     <h2>How to get your stats file?</h2>
