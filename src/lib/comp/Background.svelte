@@ -10,7 +10,7 @@
     }
 
     const balls: Ball[] = [];
-    const colors = ["A", "B", "C"];
+    const colors = ["A", "A", "B", "C"];
 
     for(let i = 0; i < 10; i++) {
         const colorLetter = colors[randi(0, colors.length - 1)];
