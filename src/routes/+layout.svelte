@@ -1,6 +1,7 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
     import Background from '$lib/comp/Background.svelte';
+    import Footer from '$lib/comp/Footer.svelte';
 
 	let { children } = $props();
 </script>

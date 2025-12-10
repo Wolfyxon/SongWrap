@@ -2,18 +2,43 @@
     --colorA: rgb(177, 60, 255);
     --colorB: rgb(98, 231, 81);
     --colorC: rgb(83, 153, 233);
+
+    --panel: rgba(48, 48, 48, 0.6);
+    --panel-outline: rgb(83, 83, 83);
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 body {
     font-family: Verdana, sans-serif;
     background-color: black;
     color: white;
-    margin: 0;
-    padding: 0;
 }
 
 main {
-    max-width: 1500px;
+    max-width: 1200px;
     padding: 25px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 92%;
+}
+
+a {
+    color: white;
+    transition: 0.2s;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+.panel {
+    background-color: var(--panel);
+    border-radius: 10px;
 }

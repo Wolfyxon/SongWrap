@@ -1,12 +1,15 @@
+<script>
+    import FileUpload from "$lib/comp/FileUpload.svelte";
+    import Footer from "$lib/comp/Footer.svelte";
+
+</script>
 
 <style>
     #banner {
-        margin: auto;
-        max-width: 1000px;
+        text-align: center;
     }
 
     #banner h1 {
-        text-align: center;
         font-size: 400%;
     }
 </style>
@@ -14,9 +17,16 @@
 <main>
     <div id="banner">
         <h1>SongWrap</h1>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quidem temporibus, magni quisquam ad vero inventore facere similique officiis quo veniam hic a illum dolorem repellendus quos aspernatur nemo distinctio!
-        </p>
-
     </div>
+
+    <FileUpload label="Upload a stat file" />
+
+    <div>
+        <h2>How to get your stats file?</h2>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ipsum dolorum ipsa enim magni dolore? Iusto quaerat nesciunt dolores ullam obcaecati magnam veniam doloremque odit, cum nihil omnis, illo excepturi.
+        </p>
+    </div>
+
+    <Footer />
 </main>
