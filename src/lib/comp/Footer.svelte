@@ -28,7 +28,7 @@
 <footer>
     <div id="footer-links">
         <a href="https://github.com/Wolfyxon/SongWrap">Source code</a>
-        <a href=".#">Privacy</a>
+        <a href="privacy">Privacy</a>
     </div>
     made by Wolfyxon
 </footer>
