@@ -12,3 +12,8 @@ body {
     padding: 0;
 }
 
+main {
+    max-width: 1500px;
+    padding: 25px;
+    margin: 0 auto;
+}
