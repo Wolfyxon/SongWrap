@@ -49,25 +49,50 @@
 </script>
 
 <style>
+    @keyframes flash {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    
     .file-upload {
-        padding: 20px;
+        text-align: center;
         border: var(--panel-outline) 2px solid;
         transition: 0.25s;
     }
 
     .file-upload.file-hover {
         background-color: var(--panel-outline);
+        scale: 1.05;
     }
 
-    .file-upload h1 {
+    .file-upload.file-hover .file-upload-content {
+        animation: none;
+    }
+
+    .file-upload-content {
+        animation: flash 2s infinite;
+        padding: 20px;
+    }
+
+    .file-upload-content h1 {
         margin-top: 0;
     }
+
 </style>
 
 <div class="file-upload panel" class:file-hover={fileHover}>
-    {#if label}
-        <h1>{label}</h1>
-    {/if}
+    <div class="file-upload-content">
+        {#if label}
+            <h1>{label}</h1>
+        {/if}
 
-    Drag and drop a file or use <input type="file" onchange={inputChange} />
+        Drag and drop a file or use <input type="file" onchange={inputChange} />
+    </div>
 </div>
