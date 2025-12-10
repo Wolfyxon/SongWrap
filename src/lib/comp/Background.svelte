@@ -41,6 +41,7 @@
     #background {
         position: absolute;
         overflow: hidden;
+        filter: blur(300px);
         opacity: 0.2;
         top: 0;
         bottom: 0;
@@ -52,7 +53,6 @@
     .ball {
         position: absolute;
         border-radius: 100%;
-        filter: blur(100px);
         background-color: var(--color);
         width: 35%;
         aspect-ratio: 1;
