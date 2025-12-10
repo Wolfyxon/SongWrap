@@ -6,6 +6,9 @@
 </script>
 
 <svelte:head>
+	<title>SongWrap</title>
+	<meta name="description" content="Import and view your listening stats in a fancy way." />
+
 	<link rel="icon" href={favicon} />
 	<link rel="stylesheet" href="/styles/global.css" />
 </svelte:head>
