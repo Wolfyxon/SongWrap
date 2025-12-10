@@ -1,0 +1,14 @@
+:root {
+    --colorA: rgb(177, 60, 255);
+    --colorB: rgb(0, 218, 0);
+    --colorC: rgb(51, 51, 223);
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background-color: black;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
