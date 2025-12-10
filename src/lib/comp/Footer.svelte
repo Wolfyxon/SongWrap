@@ -19,7 +19,7 @@
     }
 
     #footer-pre-space {
-        flex: 0.5;
+        flex: 0.1;
     }
 
 </style>

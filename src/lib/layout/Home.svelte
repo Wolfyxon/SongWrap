@@ -1,5 +1,18 @@
 <script lang="ts">
     import FileUpload from "$lib/comp/FileUpload.svelte";
+    import { Stats, type StatsData } from "$lib/stats";
+
+    export let setStats: (stats: Stats) => any;
+
+    async function filesDropped(files: FileList) {
+        const file = files[0];
+
+        // TODO: file validation
+
+        const data = JSON.parse(await file.text()) as StatsData;
+
+        setStats(new Stats(data));
+    }
 </script>
 
 <style>
@@ -16,7 +29,7 @@
     <h1>SongWrap</h1>
 </div>
 
-<FileUpload label="Upload a stat file" />
+<FileUpload label="Upload a stat file" onDropped={filesDropped} />
 
 <div>
     <h2>How to get your stats file?</h2>
