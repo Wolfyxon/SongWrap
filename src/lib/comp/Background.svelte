@@ -1,13 +1,19 @@
 <script lang="ts">
+    import { randf } from "$lib/util/math";
+
     type Ball = {
-        color: string
+        color: string,
+        x: number,
+        y: number
     }
 
     const balls: Ball[] = [];
 
     for(let i = 0; i < 10; i++) {
         balls[i] = {
-            color: "var(--colorA)"
+            color: "var(--colorA)",
+            x: randf(0, 100),
+            y: randf(0, 100)
         }
     }
 </script>
@@ -24,7 +30,6 @@
 
     .ball {
         position: absolute;
-        top: 0;
         border-radius: 100%;
         filter: blur(100px);
         background-color: var(--color);
@@ -37,7 +42,11 @@
     {#each balls as ball}
         <div 
             class="ball" 
-            style={`--color: ${ball.color}`}
+            style={`
+                --color: ${ball.color};
+                left: ${ball.x}%;
+                top: ${ball.y}%; 
+            `}
         >
         </div>
     {/each}
