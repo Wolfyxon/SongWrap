@@ -5,7 +5,15 @@
     export let page: number;
 </script>
 
+<style>
+    .page-container-content :global(*) {
+        animation: fade-in 1s;
+    }
+</style>
+
 <div class="page-container">
-    {@render pages[page]()}
+    <div class="page-container-content">
+        {@render pages[page]()}
+    </div>
 </div>
 
