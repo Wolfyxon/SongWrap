@@ -202,7 +202,7 @@ export class SongAPI {
 
         for(const img of coverData.images) {
             if(img.front) {
-                return img.image;
+                return img.thumbnails.small ?? img.image;
             }
         }
     }
