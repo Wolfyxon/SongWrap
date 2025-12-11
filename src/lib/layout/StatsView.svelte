@@ -43,6 +43,12 @@
     #stats-view-content h1 {
         text-align: center;
     }
+
+    #stats-controls {
+        display: flex;
+        gap: 10px;
+        z-index: 5;
+    }
 </style>
 
 <div id="stats-view-main">
