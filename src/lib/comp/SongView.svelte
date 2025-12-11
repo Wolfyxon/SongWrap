@@ -3,6 +3,7 @@
     import type { SongData } from "$lib/stats";
 
     export let data: SongData;
+    export let animIndex: number | null = null;
 </script>
 
 <style>
@@ -12,6 +13,11 @@
         width: 100%;
         margin-bottom: 5px;
         align-items: stretch;
+    }
+
+    .song.animated {
+        animation-name: slide-in-left;
+        
     }
 
     .song-icon {
@@ -36,7 +42,13 @@
 </style>
 
 <div class="song">
-    <img alt="Cover art" class="song-icon" src={defaultIcon} />
+    <img 
+        alt="Cover art" 
+        class="song-icon"
+        class:animated={animIndex != null} 
+        src={defaultIcon} 
+        style={animIndex ? `--anim-delay: ${animIndex * 500}s` : undefined} 
+    />
     <div class="song-text">
         <div class="song-title">{data.title}</div>
         <div class="song-artist">{data.artist}</div>
