@@ -47,8 +47,7 @@
         {/snippet}
 
         {#snippet pageFavSongsAllTime()}
-            <h1>Your favorite songs</h1>
-            <p>Of all time</p>
+            <h1>Your favorite songs of all time</h1>
             <SongList songs={stats.data.songs.slice(0, 4)} />
         {/snippet}
 
