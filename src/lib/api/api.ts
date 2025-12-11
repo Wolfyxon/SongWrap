@@ -14,38 +14,129 @@ export type APISong = {
 }
 
 export class SongAPI {
-    // TODO: Cache
+    private songCache: Record<string, APISong[]> = {};
+    private artistCache: APIArtist[] = [];
 
     /* --- Public --- */
 
-    async querySongByName(name: string, artistId?: string): Promise<APISong | undefined> {
-        const search = await this.querySongSearch(name, artistId);
+    async querySongByName(title: string, artistId?: string): Promise<APISong | undefined> {
+        const cached = this.getCachedSongByName(title, artistId);
+
+        if(cached)
+            return cached;
+
+        const search = await this.querySongSearch(title, artistId);
 
         if(!search)
             return;
 
-        return await this.apiSongFromSearchResult(search);
+        const res = await this.apiSongFromSearchResult(search);
+
+        if(!cached && artistId) {
+            if(artistId && !this.songCache[artistId]) {
+                this.songCache[artistId] = [res];
+            } else {
+                this.songCache[artistId].push(res);
+            }
+        }
+
+        return res
     }
 
     async queryArtistById(artistId: string): Promise<APIArtist | undefined> {
+        const cached = this.getCachedArtistById(artistId);
+
+        if(cached)
+            return cached;
+
         const info = await this.queryArtistInfo(artistId);
         
         if(!info)
             return;
 
-        return await this.apiArtistFromInfo(info);
+        const res = await this.apiArtistFromInfo(info);
+        this.cacheArtist(res);
+
+        return res;
     }
 
     async queryArtistByName(name: string): Promise<APIArtist | undefined> {
+        const cached = this.getCachedArtistByName(name);
+
+        if(cached)
+            return cached;
+
         const search = await this.queryArtistSearch(name);
 
-        if(!search) return;
+        if(!search) 
+            return;
         
-        return await this.queryArtistById(search.id);
+        const res = await this.queryArtistById(search.id);
+
+        if(!res)
+            return;
+
+        this.cacheArtist(res);
+
+        return res;
     }
 
     /* --- Private --- */
 
+    /* Cache */
+
+    private cacheArtist(artist: APIArtist) {
+        if(this.songCache[artist.id])
+            return;
+
+        this.songCache[artist.id] = [];
+        this.artistCache.push(artist);
+    }
+
+    private getCachedArtistById(id: string): APIArtist | undefined {
+        for(const artist of this.artistCache) {
+            if(artist.id == id) {
+                return artist;
+            }
+        }
+    }
+
+    private getCachedArtistByName(name: string): APIArtist | undefined {
+        for(const artist of this.artistCache) {
+            if(artist.name == name) {
+                return artist;
+            }
+        }
+    }
+
+    private getCachedSongByName(title: string, artistId?: string): APISong | undefined {
+        let artists = this.artistCache;
+
+        if(artistId) {
+            const artist = this.getCachedArtistById(artistId);
+
+            if(artist) {
+                artists = [artist];
+            }
+        }
+
+        for(const artist of artists) {
+            const songs = this.songCache[artist.name];
+
+            if(!songs) 
+                return;
+
+            for(const song of songs) {
+                if(song.title == title) {
+                    return song;
+                }
+            }
+        }
+
+        return;
+    }
+
+    
     /* HTTP logic */
 
     private async httpGet(url: string): Promise<Response> {

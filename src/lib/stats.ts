@@ -27,6 +27,18 @@ export class Stats {
         });
     }
 
+    getArtistNames(): string[] {
+        const res: string[] = [];
+
+        for(const song of this.data.songs) {
+            if(!res.includes(song.artist)) {
+                res.push(song.artist);
+            }
+        }
+
+        return res;
+    }
+
     getArtists(sort: boolean = false) {
         const artistEntries: Record<string, ArtistData> = {}
         const res: ArtistData[] = [];
