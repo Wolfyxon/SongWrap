@@ -17,7 +17,7 @@
     }
 
     function next() {
-        if(currentPage < pageCount) {
+        if(currentPage < pageCount - 1) {
             currentPage += 1;
         }
     }
