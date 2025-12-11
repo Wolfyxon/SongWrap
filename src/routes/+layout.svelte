@@ -1,7 +1,9 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
     import Background from '$lib/comp/Background.svelte';
-    import Footer from '$lib/comp/Footer.svelte';
+	
+	import GlobalStyle from "$lib/styles/global.svelte";
+	import AnimStyle from "$lib/styles/anim.svelte";
 
 	let { children } = $props();
 </script>
@@ -9,10 +11,11 @@
 <svelte:head>
 	<title>SongWrap</title>
 	<meta name="description" content="Import and view your listening stats in a fancy way." />
-
 	<link rel="icon" href={favicon} />
-	<link rel="stylesheet" href="/styles/global.css" />
-	<link rel="stylesheet" href="/styles/anim.css" />
+
+	<GlobalStyle/>
+	<AnimStyle />
+	
 </svelte:head>
 
 <Background />
