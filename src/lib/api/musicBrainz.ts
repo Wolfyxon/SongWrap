@@ -15,14 +15,14 @@ export type MBArtistSearchResult = {
 export type MBRelease = {
     id: string,
     status: "Official" | "Unofficial",
-    "artist-credit-id": string
+    "artist-credit"?: MBArtistCredit[],
 }
 
 export type MBRecordingSearchResult = {
     id: string,
     title: string,
     releases: MBRelease[],
-    "artist-credit-id": string
+    "artist-credit"?: MBArtistCredit[],
 }
 
 export type MBSearch = {
@@ -42,7 +42,12 @@ export type MBRecordingSearch = MBSearch & {
 export type MBArtist = {
     id: string,
     name: string,
-    relations: MBRelation[]
+    relations?: MBRelation[]
+}
+
+export type MBArtistCredit = {
+    name: string,
+    artist: MBArtist
 }
 
 export type MBRelation = {

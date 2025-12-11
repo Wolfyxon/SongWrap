@@ -1,15 +1,17 @@
+import { shareValues } from "$lib/util/array";
 import { COVERARCH, type CAARelease, type CAAReleaseImage } from "./coveArtArchive";
-import { type MBArtistSearchResult , type MBArtistSearch, MUSICBRAINZ, type MBArtist, type MBRecordingSearchResult, type MBRecordingSearch, type MBRelease } from "./musicBrainz";
+import { type MBArtistSearchResult , type MBArtistSearch, MUSICBRAINZ, type MBArtist, type MBRecordingSearchResult, type MBRecordingSearch, type MBRelease, type MBArtistCredit } from "./musicBrainz";
 
 export type APIArtist = {
     name: string,
     id: string,
-    logo?: string
+    logo?: string,
 }
 
 export type APISong = {
     title: string,
     id: string,
+    artistIds: string[],
     coverArt?: string
 }
 
@@ -173,12 +175,12 @@ export class SongAPI {
         }
 
         let url = `${MUSICBRAINZ}/recording/?query=${encodeURI(searchString)}&limit=5`;
-
+        console.log(url)
         const search: MBRecordingSearch | undefined = await this.get(url);
 
         if(!search || !search.recordings)
             return;
-        
+
         return search.recordings[0];
     }
 
@@ -190,13 +192,13 @@ export class SongAPI {
     }
 
     private async querySongCoverArt(song: MBRecordingSearchResult): Promise<string | undefined> {        
-        let release: MBRelease | null = null;
-
-        for(const rel of song.releases) {
-            if(rel["artist-credit-id"] == song["artist-credit-id"]) {
+        let release: MBRelease | undefined = song.releases[0];
+        
+        /*for(const rel of song.releases) {
+            if(rel.status == "Official") {
                 release = rel;
             }
-        }
+        }*/
 
         if(!release)
             return;
@@ -217,6 +219,7 @@ export class SongAPI {
         return {
             title: searchRes.title,
             id: searchRes.id,
+            artistIds: this.getArtistIdsFromCredits(searchRes["artist-credit"]),
             coverArt: await this.querySongCoverArt(searchRes)
         };
     }
@@ -245,6 +248,9 @@ export class SongAPI {
         // TODO: Search in other sources. There are barely any artist images in MusicBrainz
         // this function is 'async' to prepare it for making requests in the future
         
+        if(!artist.relations)
+            return;
+
         for(const rel of artist.relations) {
             if(rel.type == "image") {
                 return rel.url.resource;
@@ -261,5 +267,26 @@ export class SongAPI {
             //logo: await this.findArtistLogo(artistInfo) 
             // the logo logic is highly flawed (URL contains the image page instead of the actual file, barely any artists have an image). Disabled for now
         };
+    }
+
+    private getArtistIdsFromCredits(credits: MBArtistCredit[] | undefined): string[] {
+        const res: string[] = [];
+
+        if(!credits) {
+            return [];
+        }
+
+        for(const artist of credits) {
+            res.push(artist.artist.id);
+        }
+
+        return res;
+    }
+
+    private shareCredits(a: MBArtistCredit[], b: MBArtistCredit[]) {
+        const aIds = this.getArtistIdsFromCredits(a);
+        const bIds = this.getArtistIdsFromCredits(b);
+        
+        return shareValues(a, b);
     }
 }
