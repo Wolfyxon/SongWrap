@@ -5,6 +5,21 @@
     import type { Stats } from "$lib/stats";
 
     export let stats: Stats;
+
+    let currentPage = 0;
+    const pageCount = 2;
+
+    function prev() {
+        if(currentPage > 0) {
+            currentPage -= 1;
+        }
+    }
+
+    function next() {
+        if(currentPage < pageCount) {
+            currentPage += 1;
+        }
+    }
 </script>
 
 <style>
@@ -27,16 +42,22 @@
 
 <div id="stats-view-main">
     <div id="stats-view-content">
-        <PageContainer page={0}>
-            <div>
-                <h1>Your favorite songs</h1>
-                <SongList songs={stats.data.songs.slice(0, 4)} />
-            </div>
+        {#snippet pageIntro()}
+            <h1>Let's see</h1>
+        {/snippet}
+
+        {#snippet pageFavSongsAllTime()}
+            <h1>Your favorite songs</h1>
+            <p>Of all time</p>
+            <SongList songs={stats.data.songs.slice(0, 4)} />
+        {/snippet}
+
+        <PageContainer page={currentPage} pages={[pageIntro, pageFavSongsAllTime]}>
         </PageContainer>
         
     </div>
     <div id="stats-controls">
-        <button>Previous</button>
-        <button>Next</button>
+        <button onclick={prev}>Previous</button>
+        <button onclick={next}>Next</button>
     </div>
 </div>
