@@ -1,4 +1,5 @@
 <script lang="ts">
+    import ArtistList from "$lib/comp/ArtistList.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
     import SongView from "$lib/comp/SongView.svelte";
@@ -7,7 +8,7 @@
     export let stats: Stats;
 
     let currentPage = 0;
-    const pageCount = 2;
+    const pageCount = 3;
 
     function prev() {
         if(currentPage > 0) {
@@ -38,6 +39,10 @@
         align-items: center;
         flex: 1;
     }
+
+    #stats-view-content h1 {
+        text-align: center;
+    }
 </style>
 
 <div id="stats-view-main">
@@ -51,7 +56,12 @@
             <SongList songs={stats.data.songs.slice(0, 4)} />
         {/snippet}
 
-        <PageContainer page={currentPage} pages={[pageIntro, pageFavSongsAllTime]}>
+        {#snippet pageFavArtistsAllTime()}
+            <h1>Your favorite artists of all time</h1>
+            <ArtistList artists={stats.getArtists(true).slice(0, 3)} />
+        {/snippet}
+        
+        <PageContainer page={currentPage} pages={[pageIntro, pageFavSongsAllTime, pageFavArtistsAllTime]}>
         </PageContainer>
         
     </div>

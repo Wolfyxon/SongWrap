@@ -11,6 +11,11 @@ export type SongData = {
     totalPlays: number
 }
 
+export type ArtistData = {
+    name: string,
+    totalPlays: number
+}
+
 export class Stats {
     data: StatsData;
     
@@ -22,15 +27,31 @@ export class Stats {
         });
     }
 
-    getArtistOccurrence(): Record<string, number> {
-        const res: Record<string, number> = {};
+    getArtists(sort: boolean = false) {
+        const artistEntries: Record<string, ArtistData> = {}
+        const res: ArtistData[] = [];
 
         for(const song of this.data.songs) {
-            if(!res[song.artist]) {
-                res[song.artist] = 0;
-            }
+            const artistId = song.artist.toLowerCase().trim();
+            
+            if(!artistEntries[artistId]) {
+                artistEntries[artistId] = {
+                    name: song.artist,
+                    totalPlays: song.totalPlays
+                }
+            } else {
+                const artist = artistEntries[artistId];
 
-            res[song.artist] += 1;
+                artist.totalPlays += song.totalPlays;
+            }
+        }
+
+        Object.entries(artistEntries).forEach(([id, data]) => {
+            res.push(data);
+        });
+
+        if(sort) {
+            res.sort((a, b) => b.totalPlays - a.totalPlays);
         }
 
         return res;
