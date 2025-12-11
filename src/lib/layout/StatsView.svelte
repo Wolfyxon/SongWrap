@@ -3,12 +3,13 @@
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
     import SongView from "$lib/comp/SongView.svelte";
+    import LinkButton from "$lib/LinkButton.svelte";
     import type { Stats } from "$lib/stats";
 
     export let stats: Stats;
 
     let currentPage = 0;
-    const pageCount = 3;
+    const pageCount = 4;
 
     function prev() {
         if(currentPage > 0) {
@@ -66,8 +67,16 @@
             <h1>Your favorite artists of all time</h1>
             <ArtistList artists={stats.getArtists(true).slice(0, 3)} />
         {/snippet}
+
+        {#snippet pageEnd()}
+            <h1>That's all, see you again!</h1>
+            
+            <div style="text-align: center;">
+                <LinkButton text="Home page" />
+            </div>
+        {/snippet}
         
-        <PageContainer page={currentPage} pages={[pageIntro, pageFavSongsAllTime, pageFavArtistsAllTime]}>
+        <PageContainer page={currentPage} pages={[pageIntro, pageFavSongsAllTime, pageFavArtistsAllTime, pageEnd]}>
         </PageContainer>
         
     </div>
