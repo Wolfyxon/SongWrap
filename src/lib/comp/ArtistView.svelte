@@ -3,6 +3,7 @@
     import defaultIcon from "$lib/assets/artist.svg";
 
     export let data: ArtistData;
+    export let animIndex: number | null = null;
 </script>
 
 <style>
@@ -12,6 +13,11 @@
         flex-direction: column;
         background: var(--panel);
         text-align: center;
+    }
+
+    .artist.animated {
+        animation: slide-in-bottom 1s var(--anim-delay) forwards;
+        opacity: 0;
     }
 
     .artist-text {
@@ -34,7 +40,11 @@
     }
 </style>
 
-<div class="artist">
+<div 
+    class="artist"
+    class:animated={animIndex != null}
+    style={animIndex != null ? `--anim-delay: ${(animIndex) * 0.25}s` : undefined} 
+>
     <img src={defaultIcon} alt="Artist logo" />
 
     <div class="artist-text">

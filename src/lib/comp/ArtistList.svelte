@@ -15,7 +15,7 @@
 </style>
 
 <div class="artist-list">
-    {#each artists as artist}
-        <ArtistView data={artist} />
+    {#each artists as artist, index}
+        <ArtistView data={artist} animIndex={index} />
     {/each}
 </div>
