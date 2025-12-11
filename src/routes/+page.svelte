@@ -23,7 +23,7 @@
         if(stats) {
             // Load API data to cache
 
-            for(const song of stats.data.songs.slice(config.songRankCount)) {
+            for(const song of stats.data.songs.slice(0, config.songRankCount)) {
                 const artist = await api.queryArtistByName(song.artist);
                 await api.querySongByName(song.title, artist?.id);
             }
