@@ -33,7 +33,7 @@ export class SongAPI {
         const res = await this.apiSongFromSearchResult(search);
 
         if(!cached && artistId) {
-            if(artistId && !this.songCache[artistId]) {
+            if(!this.songCache[artistId]) {
                 this.songCache[artistId] = [res];
             } else {
                 this.songCache[artistId].push(res);
@@ -110,20 +110,20 @@ export class SongAPI {
     }
 
     private getCachedSongByName(title: string, artistId?: string): APISong | undefined {
-        let artists = this.artistCache;
+        let searchArtists = this.artistCache;
 
         if(artistId) {
             const artist = this.getCachedArtistById(artistId);
 
             if(artist) {
-                artists = [artist];
+                searchArtists = [artist];
             }
         }
 
-        for(const artist of artists) {
-            const songs = this.songCache[artist.name];
+        for(const artist of searchArtists) {
+            const songs = this.songCache[artist.id];
 
-            if(!songs) 
+            if(!songs)
                 return;
 
             for(const song of songs) {
