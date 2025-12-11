@@ -1,9 +1,26 @@
 <script lang="ts">
+    import type { SongAPI } from "$lib/api/api";
     import defaultIcon from "$lib/assets/note.svg";
     import type { SongData } from "$lib/stats";
+    
+    let icon = defaultIcon;
 
     export let data: SongData;
+    export let api: SongAPI | null = null;
     export let animIndex: number | null = null;
+
+    async function load() {
+        if(api) {
+            const artist = await api.queryArtistByName(data.artist);
+            const song = await api.querySongByName(data.title, artist?.id)
+
+            if(song && song.coverArt) {
+                icon = song.coverArt;
+            }
+        }
+    }
+
+    load();
 </script>
 
 <style>
@@ -48,7 +65,7 @@
     <img 
         alt="Cover art" 
         class="song-icon"
-        src={defaultIcon} 
+        src={icon} 
     />
     <div class="song-text">
         <div class="song-title">{data.title}</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { SongAPI } from "$lib/api/api";
     import ArtistList from "$lib/comp/ArtistList.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
@@ -6,6 +7,8 @@
     import type { Stats } from "$lib/stats";
 
     export let stats: Stats;
+    export let api: SongAPI;
+
     export let onClose: () => any = () => console.warn("onClose not set")
 
     let currentPage = 0;
@@ -60,7 +63,7 @@
 
         {#snippet pageFavSongsAllTime()}
             <h1>Your favorite songs of all time</h1>
-            <SongList songs={stats.data.songs.slice(0, 4)} />
+            <SongList songs={stats.data.songs.slice(0, 4)} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}

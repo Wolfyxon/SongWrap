@@ -30,7 +30,11 @@
 
 <Page>
     {#if currentStats && statsProcessed}
-        <StatsView stats={currentStats} onClose={() => setStats(null)} />
+        <StatsView 
+            stats={currentStats}
+            api={api}
+            onClose={() => setStats(null)} 
+        />
     {:else if currentStats && !statsProcessed}
         <h1 style="animation: flash 2s infinite; text-align: center">Getting song info...</h1>
     {:else}
