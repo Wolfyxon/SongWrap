@@ -1,4 +1,9 @@
 
+export type StatsViewConfig = {
+    songRankCount: number,
+    artistRankCount: number    
+}
+
 export type StatsData = {
     formatVersion: number,
     songs: SongData[]

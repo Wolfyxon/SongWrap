@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Stats, StatsData } from "$lib/stats";
+    import type { Stats, StatsData, StatsViewConfig } from "$lib/stats";
     
     import Home from "$lib/layout/Home.svelte";
     import Page from "$lib/comp/Page.svelte";
@@ -11,6 +11,11 @@
     let currentStats: Stats | null = null;
     let statsProcessed = false;
 
+    const config: StatsViewConfig = {
+        songRankCount: 4,
+        artistRankCount: 3
+    };
+
     async function setStats(stats: Stats | null) {
         currentStats = stats;
         statsProcessed = false;
@@ -18,7 +23,7 @@
         if(stats) {
             // Load API data to cache
 
-            for(const song of stats.data.songs) {
+            for(const song of stats.data.songs.slice(config.songRankCount)) {
                 const artist = await api.queryArtistByName(song.artist);
                 await api.querySongByName(song.title, artist?.id);
             }
@@ -33,6 +38,7 @@
         <StatsView 
             stats={currentStats}
             api={api}
+            config={config}
             onClose={() => setStats(null)} 
         />
     {:else if currentStats && !statsProcessed}

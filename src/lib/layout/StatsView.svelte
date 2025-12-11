@@ -1,11 +1,12 @@
 <script lang="ts">
-    import type { SongAPI } from "$lib/api/api";
+    import { SongAPI } from "$lib/api/api";
     import ArtistList from "$lib/comp/ArtistList.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
-    import type { Stats } from "$lib/stats";
+    import type { Stats, StatsViewConfig } from "$lib/stats";
 
+    export let config: StatsViewConfig;
     export let stats: Stats;
     export let api: SongAPI;
 
@@ -63,12 +64,12 @@
 
         {#snippet pageFavSongsAllTime()}
             <h1>Your favorite songs of all time</h1>
-            <SongList songs={stats.data.songs.slice(0, 4)} api={api} />
+            <SongList songs={stats.data.songs.slice(0, config.songRankCount)} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}
             <h1>Your favorite artists of all time</h1>
-            <ArtistList artists={stats.getArtists(true).slice(0, 3)} />
+            <ArtistList artists={stats.getArtists(true).slice(0, config.artistRankCount)} />
         {/snippet}
 
         {#snippet pageEnd()}
