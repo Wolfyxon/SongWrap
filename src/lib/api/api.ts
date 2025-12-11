@@ -73,13 +73,11 @@ export class SongAPI {
     /* Song logic */
 
     private async querySongSearch(searchString: string, artistId?: string): Promise<MBRecordingSearchResult | undefined> {
-        searchString = encodeURI(searchString);
-        
-        let url = `${MUSICBRAINZ}/recording/?query=${searchString}&limit=5`;
-
         if(artistId) {
-            url += "&arid=" + encodeURI(artistId);
+            searchString = " arid:" + artistId;
         }
+
+        let url = `${MUSICBRAINZ}/recording/?query=${encodeURI(searchString)}&limit=5`;
 
         const search: MBRecordingSearch | undefined = await this.get(url);
 
