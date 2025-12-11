@@ -60,14 +60,18 @@ export class SongAPI {
     }
 
     private async get<T>(url: string): Promise<T | undefined> {
-        const res = await this.httpGet(url);
+        try {
+            const res = await this.httpGet(url);
 
-        if(!res.ok) {
-            console.warn(`Code ${res.status} from: ${url}`);
-            return;
+            if(!res.ok) {
+                console.warn(`Code ${res.status} from: ${url}`);
+                return;
+            }
+            
+            return await res.json();
+        } catch (e) {
+            console.warn("HTTP error", e);
         }
-        
-        return await res.json();
     }
 
     /* Song logic */
