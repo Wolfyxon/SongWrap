@@ -2,11 +2,11 @@
     import ArtistList from "$lib/comp/ArtistList.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
-    import SongView from "$lib/comp/SongView.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import type { Stats } from "$lib/stats";
 
     export let stats: Stats;
+    export let onClose: () => any = () => console.warn("onClose not set")
 
     let currentPage = 0;
     const pageCount = 4;
@@ -72,7 +72,7 @@
             <h1>That's all, see you again!</h1>
             
             <div style="text-align: center;">
-                <LinkButton text="Home page" />
+                <LinkButton text="Home page" onClick={onClose} />
             </div>
         {/snippet}
         

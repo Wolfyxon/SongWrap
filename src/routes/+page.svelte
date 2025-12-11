@@ -7,14 +7,14 @@
     
     let currentStats: Stats | null = null;
 
-    function setStats(stats: Stats) {
+    function setStats(stats: Stats | null) {
         currentStats = stats;
     }
 </script>
 
 <Page>
     {#if currentStats}
-        <StatsView stats={currentStats} />
+        <StatsView stats={currentStats} onClose={() => setStats(null)} />
     {:else}
         <Home setStats={setStats}/>
     {/if}
