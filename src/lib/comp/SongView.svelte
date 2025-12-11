@@ -37,8 +37,9 @@
     }
 
     .song-icon {
-        min-width: 100px;
-        object-fit: contain;
+        width: 100px;
+        height: 100%;
+        object-fit: cover;
         background: var(--panel-dark);
     }
 
