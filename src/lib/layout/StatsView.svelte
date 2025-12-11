@@ -1,4 +1,6 @@
 <script lang="ts">
+    import PageContainer from "$lib/comp/PageContainer.svelte";
+    import SongList from "$lib/comp/SongList.svelte";
     import SongView from "$lib/comp/SongView.svelte";
     import type { Stats } from "$lib/stats";
 
@@ -25,14 +27,13 @@
 
 <div id="stats-view-main">
     <div id="stats-view-content">
-        <h1>Your favorite songs</h1>
-
-        <!-- TOOD: make it fancy -->
-        <ol style="flex: 0.5; width: 100%; max-width: 500px">
-            {#each stats.data.songs.slice(0, 5) as song, index }
-                <SongView data={song} animIndex={index} />
-            {/each}
-        </ol>
+        <PageContainer page={0}>
+            <div>
+                <h1>Your favorite songs</h1>
+                <SongList songs={stats.data.songs.slice(0, 4)} />
+            </div>
+        </PageContainer>
+        
     </div>
     <div id="stats-controls">
         <button>Previous</button>
