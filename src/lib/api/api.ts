@@ -1,5 +1,5 @@
 import { COVERARCH, type CAARelease, type CAAReleaseImage } from "./coveArtArchive";
-import { type MBArtistSearchResult , type MBArtistSearch, MUSICBRAINZ, type MBArtist, type MBRecordingSearchResult, type MBRecordingSearch } from "./musicBrainz";
+import { type MBArtistSearchResult , type MBArtistSearch, MUSICBRAINZ, type MBArtist, type MBRecordingSearchResult, type MBRecordingSearch, type MBRelease } from "./musicBrainz";
 
 export type APIArtist = {
     name: string,
@@ -169,7 +169,7 @@ export class SongAPI {
 
     private async querySongSearch(searchString: string, artistId?: string): Promise<MBRecordingSearchResult | undefined> {
         if(artistId) {
-            searchString = " arid:" + artistId;
+            searchString = searchString + " arid:" + artistId;
         }
 
         let url = `${MUSICBRAINZ}/recording/?query=${encodeURI(searchString)}&limit=5`;
@@ -178,7 +178,7 @@ export class SongAPI {
 
         if(!search || !search.recordings)
             return;
-
+        
         return search.recordings[0];
     }
 
@@ -190,7 +190,13 @@ export class SongAPI {
     }
 
     private async querySongCoverArt(song: MBRecordingSearchResult): Promise<string | undefined> {        
-        const release = song.releases[0];
+        let release: MBRelease | null = null;
+
+        for(const rel of song.releases) {
+            if(rel["artist-credit-id"] == song["artist-credit-id"]) {
+                release = rel;
+            }
+        }
 
         if(!release)
             return;
@@ -209,7 +215,7 @@ export class SongAPI {
 
     private async apiSongFromSearchResult(searchRes: MBRecordingSearchResult): Promise<APISong> {
         return {
-            title: searchRes.name,
+            title: searchRes.title,
             id: searchRes.id,
             coverArt: await this.querySongCoverArt(searchRes)
         };
