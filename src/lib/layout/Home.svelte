@@ -25,21 +25,27 @@
     #banner h1 {
         font-size: 400%;
     }
+
+    #home {
+        animation: fade-in 1s;
+    }
 </style>
 
-<div id="banner">
-    <h1>SongWrap</h1>
-</div>
+<div id="home">
+    <div id="banner">
+        <h1>SongWrap</h1>
+    </div>
 
-<FileUpload label="Upload a stat file" onDropped={filesDropped} />
+    <FileUpload label="Upload a stat file" onDropped={filesDropped} />
 
-<div style="text-align: center; padding: 10px;">
-    <LinkButton text="Try a sample" onClick={() => setStats(new Stats(sampleStats))}/>
-</div>
+    <div style="text-align: center; padding: 10px;">
+        <LinkButton text="Try a sample" onClick={() => setStats(new Stats(sampleStats))}/>
+    </div>
 
-<div>
-    <h2>How to get your stats file?</h2>
-    <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ipsum dolorum ipsa enim magni dolore? Iusto quaerat nesciunt dolores ullam obcaecati magnam veniam doloremque odit, cum nihil omnis, illo excepturi.
-    </p>
+    <div>
+        <h2>How to get your stats file?</h2>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ipsum dolorum ipsa enim magni dolore? Iusto quaerat nesciunt dolores ullam obcaecati magnam veniam doloremque odit, cum nihil omnis, illo excepturi.
+        </p>
+    </div>
 </div>
