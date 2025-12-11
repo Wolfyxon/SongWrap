@@ -16,8 +16,7 @@
     }
 
     .song.animated {
-        animation-name: slide-in-left;
-        
+        animation: slide-in-bottom var(--anim-duration);
     }
 
     .song-icon {
@@ -41,13 +40,15 @@
     }
 </style>
 
-<div class="song">
+<div 
+    class="song"
+    class:animated={animIndex != null}
+    style={animIndex != null ? `--anim-duration: ${(animIndex + 1) * 0.5}s` : undefined} 
+>
     <img 
         alt="Cover art" 
         class="song-icon"
-        class:animated={animIndex != null} 
         src={defaultIcon} 
-        style={animIndex ? `--anim-delay: ${animIndex * 500}s` : undefined} 
     />
     <div class="song-text">
         <div class="song-title">{data.title}</div>

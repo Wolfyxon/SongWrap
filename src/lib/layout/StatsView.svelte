@@ -30,7 +30,7 @@
         <!-- TOOD: make it fancy -->
         <ol style="flex: 0.5; width: 100%; max-width: 500px">
             {#each stats.data.songs.slice(0, 5) as song, index }
-                <SongView data={song} />
+                <SongView data={song} animIndex={index} />
             {/each}
         </ol>
     </div>
