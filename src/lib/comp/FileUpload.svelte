@@ -81,6 +81,6 @@
             <h1>{label}</h1>
         {/if}
 
-        Drag and drop a file or use <input type="file" onchange={inputChange} />
+        Drag and drop a file or use <input type="file" onchange={inputChange} aria-label="file picker" />
     </div>
 </div>

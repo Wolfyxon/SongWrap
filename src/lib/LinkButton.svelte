@@ -34,7 +34,7 @@
 </style>
 
 <div class="link-btn">
-    <a href="javascript:void(0)" class="link-btn-a" onclick={onClick}>
+    <a href="javascript:void(0)" class="link-btn-a" onclick={onClick} rel="nofollow">
         {text}
     </a>
     <div class="link-btn-underline"></div>
