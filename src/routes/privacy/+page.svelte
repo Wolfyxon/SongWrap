@@ -5,7 +5,7 @@
 <Page>
     <div>
         <h1>Privacy</h1>
-        <a href="..">Go back to home</a>
+        <a href=".">Go back to home</a>
 
         <h2>Data processing and collection</h2>
         <p>
