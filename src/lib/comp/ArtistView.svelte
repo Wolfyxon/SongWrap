@@ -9,10 +9,10 @@
 <style>
     .artist {
         display: flex;
-        min-width: 200px;
         flex-direction: column;
-        background: var(--panel);
         text-align: center;
+        max-width: 40vw;
+        gap: 5px;
     }
 
     .artist.animated {
@@ -23,19 +23,21 @@
     .artist-text {
         display: flex;
         flex-direction: column;
-        padding: 10px 20px;
         padding-top: 0;
+        gap: 5px;
     }
 
     .artist img {
         object-fit: contain;
-        width: 100%;
-        height: 20vh;
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
         background: var(--panel-dark);
+        border-radius: 100%;
     }
 
     .artist-name {
-        font-size: 200%;
+        font-size: 150%;
         font-weight: bold;
     }
 </style>
