@@ -132,7 +132,6 @@ export class SongAPI {
             method: "GET",
             signal: AbortSignal.timeout(5000),
             headers: {
-                "User-Agent": "SongWrap/1.0.0 ( wolfyxon@gmail.com )",
                 "Accept": "application/json"
             }
         });
