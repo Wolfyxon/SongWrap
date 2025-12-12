@@ -5,11 +5,14 @@
     import Page from "$lib/comp/Page.svelte";
     import StatsView from "$lib/layout/StatsView.svelte";
     import { SongAPI } from "$lib/api/api";
+    import ProgressBar from "$lib/comp/ProgressBar.svelte";
     
     const api = new SongAPI();
 
     let currentStats: Stats | null = null;
     let statsProcessed = false;
+    let progress = 0;
+    let progressMax = 0;
 
     const config: StatsViewConfig = {
         songRankCount: 4,
@@ -19,19 +22,36 @@
     async function setStats(stats: Stats | null) {
         currentStats = stats;
         statsProcessed = false;
+        progress = 0;
 
         if(stats) {
-            // Load API data to cache
+            const songs = stats.data.songs.slice(0, config.songRankCount);
+            progressMax = songs.length * 2;
 
-            for(const song of stats.data.songs.slice(0, config.songRankCount)) {
+            for(const song of songs) {
                 const artist = await api.queryArtistByName(song.artist);
+                progress++;
+
                 await api.querySongByName(song.title, artist?.id);
+                progress++;
             }
 
             statsProcessed = true;
         }
     }
 </script>
+
+<style>
+    #loading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 5px;
+        height: 100%;
+    }
+</style>
 
 <Page>
     {#if currentStats && statsProcessed}
@@ -42,7 +62,10 @@
             onClose={() => setStats(null)} 
         />
     {:else if currentStats && !statsProcessed}
-        <h1 style="animation: flash 2s infinite; text-align: center">Getting song info...</h1>
+        <div id="loading">
+            <h1 style="animation: flash 2s infinite; text-align: center">Getting song info...</h1>
+            <ProgressBar value={progress} max={progressMax} />
+        </div>
     {:else}
         <Home setStats={setStats}/>
     {/if}

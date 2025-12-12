@@ -1,5 +1,6 @@
 <script lang="ts">
     import FileUpload from "$lib/comp/FileUpload.svelte";
+    import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import { sampleStats } from "$lib/sampleStats";
     import { Stats, type StatsData } from "$lib/stats";
