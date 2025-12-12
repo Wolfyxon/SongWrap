@@ -7,6 +7,7 @@
     import { SongAPI } from "$lib/api/api";
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import { wait } from "$lib/util";
+    import { preloadImage } from "$lib/util/dom";
     
     const api = new SongAPI();
 
@@ -27,15 +28,21 @@
 
         if(stats) {
             const songs = stats.data.songs.slice(0, config.songRankCount);
-            progressMax = songs.length * 2;
+            progressMax = songs.length * 3;
 
             for(let i = 0; i < songs.length; i++) {
-                const song = songs[i];
+                const songStat = songs[i];
 
-                const artist = await api.queryArtistByName(song.artist);
+                const artist = await api.queryArtistByName(songStat.artist);
                 progress++;
 
-                await api.querySongByName(song.title, artist?.id);
+                const song = await api.querySongByName(songStat.title, artist?.id);
+                progress++;
+
+                if(song?.coverArt) {
+                    await preloadImage(song.coverArt, 2000);
+                }
+
                 progress++;
 
                 // Account for rate limit
