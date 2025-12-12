@@ -24,9 +24,9 @@ export const sampleStats: StatsData = {
             totalPlays: 17
         },
         {
-            title: "War Without Reason",
-            artist: "Hakita",
-            totalPlays: 5
+            title: "An Absence",
+            artist: "Heaven Pierce Her",
+            totalPlays: 30
         }
     ]
 };
