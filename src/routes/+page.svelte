@@ -6,6 +6,7 @@
     import StatsView from "$lib/layout/StatsView.svelte";
     import { SongAPI } from "$lib/api/api";
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
+    import { wait } from "$lib/util";
     
     const api = new SongAPI();
 
@@ -28,12 +29,19 @@
             const songs = stats.data.songs.slice(0, config.songRankCount);
             progressMax = songs.length * 2;
 
-            for(const song of songs) {
+            for(let i = 0; i < songs.length; i++) {
+                const song = songs[i];
+
                 const artist = await api.queryArtistByName(song.artist);
                 progress++;
 
                 await api.querySongByName(song.title, artist?.id);
                 progress++;
+
+                // Account for rate limit
+                if(i % 20 == 0) {
+                    await wait(1000);
+                }
             }
 
             statsProcessed = true;

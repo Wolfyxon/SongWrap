@@ -150,7 +150,7 @@ export class SongAPI {
             
             return await res.json();
         } catch (e) {
-            console.warn("HTTP error", e);
+            console.warn("HTTP error", e, url);
         }
     }
 
@@ -179,28 +179,19 @@ export class SongAPI {
 
         return search.recordings[0];
     }
-
-    private async queryCoverArtData(releaseId: string): Promise<CAARelease | undefined> {
-        const url = encodeURI(`${COVERARCH}/release/${releaseId}`);
-
-        const data: CAARelease | undefined = await this.get(url);
-
-        return data;
-    }
-
+    
     private async querySongCoverArt(song: MBRecordingSearchResult): Promise<string | undefined> {
         for(let i = 0; i < song.releases.length && i < 5; i++) {
             const rel = song.releases[i];
 
-            const data = await this.queryCoverArtData(rel.id);
+            try {
+                const url = `${COVERARCH}/release/${rel.id}/front`;
+                const image = await this.httpGet(url);
 
-            if(!data)
-                continue;
+                if(image.ok)
+                    return url;
+            } catch {
 
-            for(const img of data.images) {
-                if(img.front) {
-                    return img.thumbnails.small ?? img.image;
-                }
             }
         }
     }
