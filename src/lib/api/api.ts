@@ -186,7 +186,7 @@ export class SongAPI {
         );
         
         const search: MBRecordingSearch | undefined = await this.get(url);
-        console.log(url)
+        
         if(!search || !search.recordings)
             return;
 
@@ -194,32 +194,26 @@ export class SongAPI {
     }
 
     private async queryCoverArtData(releaseId: string): Promise<CAARelease | undefined> {
-        releaseId = encodeURI(releaseId);
-        const data: CAARelease | undefined = await this.get(`${COVERARCH}/release/${releaseId}`);
+        const url = encodeURI(`${COVERARCH}/release/${releaseId}`);
+
+        const data: CAARelease | undefined = await this.get(url);
 
         return data;
     }
 
-    private async querySongCoverArt(song: MBRecordingSearchResult): Promise<string | undefined> {        
-        let release: MBRelease | undefined = song.releases[0];
-        
-        /*for(const rel of song.releases) {
-            if(rel.status == "Official") {
-                release = rel;
-            }
-        }*/
+    private async querySongCoverArt(song: MBRecordingSearchResult): Promise<string | undefined> {
+        for(let i = 0; i < song.releases.length && i < 5; i++) {
+            const rel = song.releases[i];
 
-        if(!release)
-            return;
+            const data = await this.queryCoverArtData(rel.id);
 
-        const coverData = await this.queryCoverArtData(release.id);
+            if(!data)
+                continue;
 
-        if(!coverData)
-            return;
-
-        for(const img of coverData.images) {
-            if(img.front) {
-                return img.thumbnails.small ?? img.image;
+            for(const img of data.images) {
+                if(img.front) {
+                    return img.thumbnails.small ?? img.image;
+                }
             }
         }
     }
