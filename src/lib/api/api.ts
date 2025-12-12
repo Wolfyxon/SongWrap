@@ -49,14 +49,8 @@ export class SongAPI {
 
         if(!search)
             return;
-
-        const res = await this.apiSongFromSearchResult(search);
-
-        if(!cached) {
-            this.cacheSong(res);
-        }
-
-        return res
+        
+        return await this.apiSongFromSearchResult(search);
     }
 
     async queryArtistById(artistId: string): Promise<APIArtist | undefined> {
@@ -137,6 +131,14 @@ export class SongAPI {
                     continue;
                 }
 
+                return song;
+            }
+        }
+    }
+
+    private getCachedSongById(songId: string): APISong | undefined {
+        for(const song of this.songCache) {
+            if(song.id == songId) {
                 return song;
             }
         }
@@ -238,12 +240,23 @@ export class SongAPI {
     }
 
     private async apiSongFromSearchResult(searchRes: MBRecordingSearchResult): Promise<APISong> {
-        return {
+        const cached = this.getCachedSongById(searchRes.id);
+
+        if(cached)
+            return cached;
+
+        const song: APISong = {
             title: searchRes.title,
             id: searchRes.id,
             artistIds: this.getArtistIdsFromCredits(searchRes["artist-credit"]),
             coverArt: await this.querySongCoverArt(searchRes)
         };
+
+        if(!cached) {
+            this.cacheSong(song);
+        }        
+
+        return song;
     }
 
     /* Artist logic */
