@@ -29,7 +29,7 @@
         background: var(--panel);
         width: 100%;
         margin-bottom: 5px;
-        align-items: stretch;
+        height: 100px;
     }
 
     .song.animated {
