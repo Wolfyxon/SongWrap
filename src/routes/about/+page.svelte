@@ -34,7 +34,7 @@
     </ul>
     <p>
         If you'd like to create your own project or manually make a stats file, see the 
-        <a href="http://github.com/wolfyxon/Songwrap/tree/main/README.md">format specification</a>.
+        <a href="https://github.com/wolfyxon/Songwrap/tree/main/README.md">format specification</a>.
     </p>
 
     <h2>Copyright</h2>
@@ -49,6 +49,6 @@
     </p>
     <p>
         This website is licensed under the 
-        <a href="github.com/wolfyxon/songwrap/tree/main/LICENSE">GNU General Public License</a>.
+        <a href="https://github.com/wolfyxon/songwrap/tree/main/LICENSE">GNU General Public License</a>.
     </p>
 </Page>
