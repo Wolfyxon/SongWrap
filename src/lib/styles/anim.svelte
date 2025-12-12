@@ -20,6 +20,15 @@
         }
     }
 
+    @keyframes -global-scale-in {
+        0% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
     @keyframes -global-slide-in-left {
         0% {
             opacity: 0;

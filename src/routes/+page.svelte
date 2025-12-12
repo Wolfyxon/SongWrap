@@ -43,7 +43,7 @@
 
 <style>
     #loading {
-        animation: fade-in 1s;
+        animation: fade-in 2s, scale-in 0.3s;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -67,7 +67,7 @@
             config={config}
             onClose={() => setStats(null)} 
         />
-    {:else if currentStats && !statsProcessed || true}
+    {:else if currentStats && !statsProcessed}
         <div id="loading">
             <h1 style="animation: flash 2s infinite; text-align: center">Loading songs...</h1>
             <ProgressBar value={progress} max={progressMax} />
