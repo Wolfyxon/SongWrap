@@ -51,6 +51,11 @@
         margin: 0 auto;
         padding: 5px;
         height: 100%;
+        text-align: center;
+    }
+
+    #loading p {
+        opacity: 0.5;
     }
 </style>
 
@@ -64,8 +69,9 @@
         />
     {:else if currentStats && !statsProcessed || true}
         <div id="loading">
-            <h1 style="animation: flash 2s infinite; text-align: center">Getting song info...</h1>
+            <h1 style="animation: flash 2s infinite; text-align: center">Loading songs...</h1>
             <ProgressBar value={progress} max={progressMax} />
+            <p>Getting cover arts...</p>
         </div>
     {:else}
         <Home setStats={setStats}/>
