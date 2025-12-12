@@ -24,12 +24,12 @@
 
         main {
             max-width: 1200px;
-            padding: 25px;
+            padding: 25px 25px 0 25px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 92%;
+            height: 95%;
         }
 
         button {
