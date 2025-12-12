@@ -11,5 +11,5 @@ export function shareValues(a: any[], b: any[]): boolean {
 }
 
 export function randChoice<T>(array: T[]): T | undefined {
-    return array[randi(0, array.length)];
+    return array[randi(0, array.length - 1)];
 }
