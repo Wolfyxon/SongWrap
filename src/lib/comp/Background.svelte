@@ -41,7 +41,7 @@
     #background {
         position: absolute;
         overflow: hidden;
-        filter: blur(300px);
+        filter: blur(8vw);
         opacity: 0.2;
         top: 0;
         bottom: 0;
@@ -54,7 +54,8 @@
         position: absolute;
         border-radius: 100%;
         background-color: var(--color);
-        width: 35%;
+        width: 35vw;
+        min-width: 200px;
         aspect-ratio: 1;
         animation: orbit var(--anim-time) infinite linear;
     }
