@@ -130,6 +130,7 @@ export class SongAPI {
     private async httpGet(url: string): Promise<Response> {
         const res = await fetch(url, {
             method: "GET",
+            signal: AbortSignal.timeout(5000),
             headers: {
                 "Accept": "application/json"
             }
