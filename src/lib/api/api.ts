@@ -16,7 +16,7 @@ export type APISong = {
 }
 
 export class SongAPI {
-    private songCache: Record<string, APISong[]> = {};
+    private songCache: APISong[] = [];
     private artistCache: APIArtist[] = [];
 
     /* --- Public --- */
@@ -34,12 +34,8 @@ export class SongAPI {
 
         const res = await this.apiSongFromSearchResult(search);
 
-        if(!cached && artistId) {
-            if(!this.songCache[artistId]) {
-                this.songCache[artistId] = [res];
-            } else {
-                this.songCache[artistId].push(res);
-            }
+        if(!cached) {
+            this.cacheSong(res);
         }
 
         return res
@@ -57,7 +53,10 @@ export class SongAPI {
             return;
 
         const res = await this.apiArtistFromInfo(info);
-        this.cacheArtist(res);
+        
+        if(!cached) {
+            this.cacheArtist(res);
+        }
 
         return res;
     }
@@ -78,7 +77,9 @@ export class SongAPI {
         if(!res)
             return;
 
-        this.cacheArtist(res);
+        if(!cached) {
+            this.cacheArtist(res);
+        }
 
         return res;
     }
@@ -88,11 +89,11 @@ export class SongAPI {
     /* Cache */
 
     private cacheArtist(artist: APIArtist) {
-        if(this.songCache[artist.id])
-            return;
-
-        this.songCache[artist.id] = [];
         this.artistCache.push(artist);
+    }
+
+    private cacheSong(song: APISong) {
+        this.songCache.push(song);
     }
 
     private getCachedArtistById(id: string): APIArtist | undefined {
@@ -112,30 +113,15 @@ export class SongAPI {
     }
 
     private getCachedSongByName(title: string, artistId?: string): APISong | undefined {
-        let searchArtists = this.artistCache;
-
-        if(artistId) {
-            const artist = this.getCachedArtistById(artistId);
-
-            if(artist) {
-                searchArtists = [artist];
-            }
-        }
-
-        for(const artist of searchArtists) {
-            const songs = this.songCache[artist.id];
-
-            if(!songs)
-                return;
-
-            for(const song of songs) {
-                if(song.title == title) {
-                    return song;
+        for(const song of this.songCache) {
+            if(song.title == title) {
+                if(artistId && !song.artistIds.includes(artistId)) {
+                    continue;
                 }
+
+                return song;
             }
         }
-
-        return;
     }
 
     
