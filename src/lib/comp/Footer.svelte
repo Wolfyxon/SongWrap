@@ -1,9 +1,6 @@
 <style>
     footer {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        color: silver;
+        text-align: center;
     }
 
     #footer-links {
@@ -18,8 +15,13 @@
         border-left: 1px var(--panel-outline) solid;    
     }
 
+    #footer-author {
+        color: silver;
+        margin-top: 10px;
+    }
+
     #footer-pre-space {
-        flex: 0.1;
+        flex: 0.05;
     }
 
 </style>
@@ -27,8 +29,11 @@
 <div id="footer-pre-space"></div>
 <footer>
     <div id="footer-links">
-        <a href="https://github.com/Wolfyxon/SongWrap">Source code</a>
+        <a href="about">About</a>
         <a href="privacy">Privacy</a>
+        <a href="https://github.com/Wolfyxon/SongWrap">Source code</a>
     </div>
-    made by Wolfyxon
+    <div id="footer-author">
+        made by Wolfyxon
+    </div>
 </footer>
