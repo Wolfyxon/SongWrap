@@ -62,7 +62,7 @@
             config={config}
             onClose={() => setStats(null)} 
         />
-    {:else if currentStats && !statsProcessed}
+    {:else if currentStats && !statsProcessed || true}
         <div id="loading">
             <h1 style="animation: flash 2s infinite; text-align: center">Getting song info...</h1>
             <ProgressBar value={progress} max={progressMax} />

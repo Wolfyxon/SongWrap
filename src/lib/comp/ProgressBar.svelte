@@ -13,7 +13,16 @@
     }
 
     .progress-bar-fill {
-        background: linear-gradient(90deg, var(--colorA), var(--colorB), var(--colorC));
+        background-image: linear-gradient(
+            90deg, 
+            var(--colorA), 
+            var(--colorB), 
+            var(--colorC),
+            var(--colorB), 
+            var(--colorA)
+        );
+        background-size: 250% 250%;
+        animation: bg-scroll-x 2s infinite linear forwards;
         border-radius: 10px;
         height: 100%;
         transition: 0.5s;

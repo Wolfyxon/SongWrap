@@ -41,5 +41,14 @@
             transform:  translateY(0%);
         }
     }
+
+    @keyframes -global-bg-scroll-x {
+        0% {
+            background-position-x: 0%;
+        }
+        100% {
+            background-position-x: -250%;
+        }
+    }
     
 </style>
