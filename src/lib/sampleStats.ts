@@ -14,7 +14,7 @@ export const sampleStats: StatsData = {
             totalPlays: 35
         },
         {
-            title: "megalovania",
+            title: "MEGALOVANIA",
             artist: "Toby Fox",
             totalPlays: 6
         },
