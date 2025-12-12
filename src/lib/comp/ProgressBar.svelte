@@ -16,7 +16,7 @@
         background: linear-gradient(90deg, var(--colorA), var(--colorB), var(--colorC));
         border-radius: 10px;
         height: 100%;
-        transition: 0.2s;
+        transition: 0.5s;
     }
 
 

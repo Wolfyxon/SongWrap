@@ -43,6 +43,7 @@
 
 <style>
     #loading {
+        animation: fade-in 1s;
         display: flex;
         flex-direction: column;
         justify-content: center;
