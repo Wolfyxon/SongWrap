@@ -171,13 +171,22 @@ export class SongAPI {
 
     private async querySongSearch(searchString: string, artistId?: string): Promise<MBRecordingSearchResult | undefined> {
         if(artistId) {
-            searchString = searchString + " arid:" + artistId;
+            const artist = await this.queryArtistById(artistId);
+
+            if(artist) {
+                // Searching by name seems to be more accurate
+                searchString += " artist:" + artist.name;
+            } else {
+                searchString += " arid:" + artistId;
+            }
         }
 
-        let url = `${MUSICBRAINZ}/recording/?query=${encodeURI(searchString)}&limit=5`;
-        console.log(url)
+        let url = encodeURI(
+            `${MUSICBRAINZ}/recording/?query=${searchString} status:Official&limit=5`
+        );
+        
         const search: MBRecordingSearch | undefined = await this.get(url);
-
+        console.log(url)
         if(!search || !search.recordings)
             return;
 
