@@ -179,17 +179,20 @@ export class SongAPI {
 
         return search.recordings[0];
     }
-    
+
     private async querySongCoverArt(song: MBRecordingSearchResult): Promise<string | undefined> {
         for(let i = 0; i < song.releases.length && i < 5; i++) {
             const rel = song.releases[i];
+            const sizes = ["-small", "-250", "-500", ""]
 
             try {
-                const url = `${COVERARCH}/release/${rel.id}/front`;
-                const image = await this.httpGet(url);
+                for(const size of sizes) {
+                    const url = `${COVERARCH}/release/${rel.id}/front${size}`;
+                    const image = await this.httpGet(url);
 
-                if(image.ok)
-                    return url;
+                    if(image.ok)
+                        return url;
+                    }
             } catch {
 
             }
