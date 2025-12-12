@@ -49,7 +49,7 @@ export class SongAPI {
 
         if(!search)
             return;
-        
+
         return await this.apiSongFromSearchResult(search);
     }
 
@@ -209,7 +209,7 @@ export class SongAPI {
         }
 
         let url = encodeURI(
-            `${MUSICBRAINZ}/recording/?query=${searchString} status:Official&limit=5`
+            `${MUSICBRAINZ}/recording/?query=${searchString} status:Official&limit=1`
         );
         
         const search: MBRecordingSearch | undefined = await this.get(url);
@@ -264,7 +264,7 @@ export class SongAPI {
     private async queryArtistSearch(searchString: string): Promise<MBArtistSearchResult | undefined> {      
         searchString = encodeURI(searchString);  
 
-        const url = `${MUSICBRAINZ}/artist/?query=${searchString}&alias=${searchString}&limit=5`;
+        const url = `${MUSICBRAINZ}/artist/?query=${searchString}&alias=${searchString}&limit=1`;
         const search: MBArtistSearch | undefined = await this.get(url);
 
         if(!search || !search.artists)
