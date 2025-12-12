@@ -21,5 +21,7 @@ export function preloadImage(src: string, timeout: number = 10000): Promise<bool
         img.onerror = () => done(false);
 
         setTimeout(() => done(false), timeout);
+
+        document.body.append(img);
     });
 }
