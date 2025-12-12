@@ -5,12 +5,17 @@
     import SongList from "$lib/comp/SongList.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import type { Stats, StatsViewConfig } from "$lib/stats";
+    import { STATS_INTROS, STATS_OUTROS } from "$lib/strings";
+    import { randChoice } from "$lib/util/array";
 
     export let config: StatsViewConfig;
     export let stats: Stats;
     export let api: SongAPI;
 
     export let onClose: () => any = () => console.warn("onClose not set")
+
+    const introText = randChoice(STATS_INTROS);
+    const outroText = randChoice(STATS_OUTROS);
 
     let currentPage = 0;
     const pageCount = 4;
@@ -59,7 +64,7 @@
 <div id="stats-view-main">
     <div id="stats-view-content">
         {#snippet pageIntro()}
-            <h1>Let's see</h1>
+            <h1>{introText}</h1>
         {/snippet}
 
         {#snippet pageFavSongsAllTime()}
@@ -73,7 +78,7 @@
         {/snippet}
 
         {#snippet pageEnd()}
-            <h1>That's all, see you again!</h1>
+            <h1>{outroText}</h1>
             
             <div style="text-align: center;">
                 <LinkButton text="Home page" onClick={onClose} />
