@@ -18,8 +18,26 @@ export type APISong = {
 export class SongAPI {
     private songCache: APISong[] = [];
     private artistCache: APIArtist[] = [];
+    private offline = false;
+    private httpAborts: AbortController[] = [];
 
     /* --- Public --- */
+
+    setOffline(state: boolean) {
+        this.offline = state;
+
+        if(!state) {
+            for(const controller of this.httpAborts) {
+                controller.abort();
+            }
+
+            this.httpAborts = [];
+        }
+    }
+
+    isOffline(): boolean {
+        return this.offline;
+    }
 
     async querySongByName(title: string, artistId?: string): Promise<APISong | undefined> {
         const cached = this.getCachedSongByName(title, artistId);
@@ -128,9 +146,26 @@ export class SongAPI {
     /* HTTP logic */
 
     private async httpGet(url: string): Promise<Response> {
+        const controller = new AbortController();
+        const timeout = 5000;
+        
+        this.httpAborts.push(controller);
+        
+        const complete = () => { // 'function' doesn't have access to private fields
+            const idx = this.httpAborts.indexOf(controller);
+            
+            if(!idx)
+                return;
+
+            controller.abort();
+            this.httpAborts.splice(idx, 1);
+        }
+
+        setTimeout(complete, timeout);
+
         const res = await fetch(url, {
             method: "GET",
-            signal: AbortSignal.timeout(5000),
+            signal: controller.signal,
             headers: {
                 "Accept": "application/json"
             }
@@ -140,6 +175,9 @@ export class SongAPI {
     }
 
     private async get<T>(url: string): Promise<T | undefined> {
+        if(this.isOffline())
+            return;
+
         try {
             const res = await this.httpGet(url);
 

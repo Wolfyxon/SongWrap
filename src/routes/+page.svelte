@@ -22,10 +22,10 @@
     };
 
     async function setStats(stats: Stats | null) {
-        currentStats = stats;
         statsProcessed = false;
         progress = 0;
-
+        currentStats = stats;
+        
         if(stats) {
             const songs = stats.data.songs.slice(0, config.songRankCount);
             progressMax = songs.length * 3;
@@ -39,7 +39,7 @@
                 const song = await api.querySongByName(songStat.title, artist?.id);
                 progress++;
 
-                if(song?.coverArt) {
+                if(song?.coverArt && !api.isOffline()) {
                     await preloadImage(song.coverArt, 2000);
                 }
 
@@ -72,6 +72,12 @@
     #loading p {
         opacity: 0.5;
     }
+
+    #loading-offline-hint {
+        opacity: 0;
+        animation: fade-in 5s forwards;
+        animation-delay: 8s;
+    }
 </style>
 
 <Page>
@@ -87,6 +93,11 @@
             <h1 style="animation: flash 2s infinite; text-align: center">Loading songs...</h1>
             <ProgressBar value={progress} max={progressMax} />
             <p>Getting cover arts...</p>
+
+            <div id="loading-offline-hint">
+                Taking too long?
+                <a href="javascript:void(0)" onclick={() => api.setOffline(true)}>Go offline</a>
+            </div>
         </div>
     {:else}
         <Home setStats={setStats}/>
