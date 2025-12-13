@@ -32,5 +32,9 @@
 </style>
 
 <div class="progress-bar">
-    <div class="progress-bar-fill" style={`width: ${(value / max) * 100}%`}></div>
+    <div 
+        class="progress-bar-fill" 
+        style={`width: ${Math.min(value / max, 1) * 100}%`}
+    >
+    </div>
 </div>
