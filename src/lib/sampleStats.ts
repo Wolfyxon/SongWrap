@@ -6,12 +6,17 @@ export const sampleStats: StatsData = {
         {
             title: "Du Hast",
             artist: "Rammstein",
-            totalPlays: 24
+            totalPlays: 10
         },
         {
             title: "Giftig",
             artist: "Rammstein",
             totalPlays: 35
+        },
+        {
+            title: "Behold the skeleton",
+            artist: "KaroleusPL",
+            totalPlays: 42
         },
         {
             title: "MEGALOVANIA",
