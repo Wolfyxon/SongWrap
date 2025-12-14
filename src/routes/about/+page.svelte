@@ -39,8 +39,8 @@
 
     <h2>Copyright</h2>
     <p>
-        Most cover arts for each song are retrieved from <a href="https://musicbrainz.org/">MusicBrainz</a>.
-        I am not their creator and they're not stored on the website.
+        Most cover arts for each song are retrieved from <a href="http://coverartarchive.org/">Cover Art Archive</a> (via dynamic linking).
+        I am not their creator and they're not stored on this website.
     </p>
     <p>
         Some icons used here are made by Google
