@@ -1,3 +1,4 @@
+import { wait } from ".";
 
 export function preloadImage(src: string, timeout: number = 10000): Promise<boolean> {
     return new Promise((resolve) => {
@@ -5,14 +6,20 @@ export function preloadImage(src: string, timeout: number = 10000): Promise<bool
         let complete = false;
 
         img.style.position = "absolute";
-        img.style.top = "10000%";
+        img.style.opacity = "0.01"
+        img.style.top = "0";
+        img.width = 50;
+        img.height = 50;
         img.src = src;
 
-        function done(result: boolean) {
+        async function done(result: boolean) {
             if(complete)
                 return;
 
             complete = true;
+
+            await wait(10);
+
             img.remove();
             resolve(result);
         }
