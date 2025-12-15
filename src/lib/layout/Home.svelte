@@ -40,7 +40,7 @@
     <FileUpload label="Upload a stat file" onDropped={filesDropped} />
 
     <div style="text-align: center; padding: 10px;">
-        <LinkButton text="Try a sample" onClick={() => setStats(new Stats(sampleStats))}/>
+        <LinkButton text="Try a sample" onClick={() => setStats(new Stats(sampleStats))} highlight/>
     </div>
 
     <div>

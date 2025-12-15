@@ -81,7 +81,7 @@
             <h1>{outroText}</h1>
             
             <div style="text-align: center;">
-                <LinkButton text="Home page" onClick={onClose} />
+                <LinkButton text="Home page" onClick={onClose} highlight />
             </div>
         {/snippet}
         

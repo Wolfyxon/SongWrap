@@ -8,6 +8,7 @@
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import { wait } from "$lib/util";
     import { preloadImage } from "$lib/util/dom";
+    import LinkButton from "$lib/LinkButton.svelte";
     
     const api = new SongAPI();
 
@@ -96,7 +97,7 @@
 
             <div id="loading-offline-hint">
                 Taking too long?
-                <a href="javascript:void(0)" onclick={() => api.setOffline(true)}>Go offline</a>
+                <LinkButton text="Go offline" onClick={() => api.setOffline(true)} />
             </div>
         </div>
     {:else}
