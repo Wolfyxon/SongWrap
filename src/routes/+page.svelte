@@ -97,7 +97,7 @@
 
             <div id="loading-offline-hint">
                 Taking too long?
-                <LinkButton text="Go offline" onClick={() => api.setOffline(true)} />
+                <LinkButton text="Skip loading" onClick={() => api.setOffline(true)} />
             </div>
         </div>
     {:else}
