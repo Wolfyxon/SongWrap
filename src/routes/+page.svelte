@@ -72,6 +72,11 @@
         text-align: center;
     }
 
+    #loading h1 {
+        animation: flash 2s infinite; 
+        text-align: center
+    }
+
     #loading p {
         opacity: 0.5;
     }
@@ -93,7 +98,7 @@
         />
     {:else if currentStats && !statsProcessed}
         <div id="loading">
-            <h1 style="animation: flash 2s infinite; text-align: center">Loading songs...</h1>
+            <h1>Loading songs...</h1>
             <ProgressBar value={progress} max={progressMax} />
             <p>Getting cover arts...</p>
 
