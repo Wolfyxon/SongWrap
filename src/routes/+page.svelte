@@ -28,6 +28,8 @@
         currentStats = stats;
         
         if(stats) {
+            api.setOffline(false);
+
             const songs = stats.data.songs.slice(0, config.songRankCount);
             progressMax = songs.length * 3;
 
