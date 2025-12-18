@@ -85,12 +85,12 @@
         {/snippet}
 
         {#snippet pageFavSongsAllTime()}
-            <h1>Your favorite songs of all time</h1>
+            <h1>These are your favorite songs</h1>
             <SongList songs={stats.data.songs.slice(0, config.songRankCount)} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}
-            <h1>Your favorite artists of all time</h1>
+            <h1>And these are your favorite artists</h1>
             <ArtistList artists={stats.getArtists(true).slice(0, config.artistRankCount)} />
         {/snippet}
 
