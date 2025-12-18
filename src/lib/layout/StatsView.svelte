@@ -1,6 +1,7 @@
 <script lang="ts">
     import { SongAPI } from "$lib/api/api";
     import ArtistList from "$lib/comp/ArtistList.svelte";
+    import Counter from "$lib/comp/Counter.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
@@ -18,7 +19,7 @@
     const outroText = randChoice(STATS_OUTROS);
 
     let currentPage = 0;
-    const pageCount = 4;
+    const pageCount = 5;
 
     function prev() {
         if(currentPage > 0) {
@@ -67,6 +68,22 @@
             <h1>{introText}</h1>
         {/snippet}
 
+        {#snippet numStats()}
+            <h1>You listened to</h1>
+
+            <div class="flex">
+                <Counter
+                    value={stats.getArtists().length}
+                    label="Artists"
+                />
+                
+                <Counter 
+                    value={stats.data.songs.length}
+                    label="Songs"
+                />
+            </div>
+        {/snippet}
+
         {#snippet pageFavSongsAllTime()}
             <h1>Your favorite songs of all time</h1>
             <SongList songs={stats.data.songs.slice(0, config.songRankCount)} api={api} />
@@ -85,7 +102,18 @@
             </div>
         {/snippet}
         
-        <PageContainer page={currentPage} pages={[pageIntro, pageFavSongsAllTime, pageFavArtistsAllTime, pageEnd]}>
+        <PageContainer 
+            page={currentPage} 
+            pages={
+                [
+                    pageIntro,
+                    numStats, 
+                    pageFavSongsAllTime, 
+                    pageFavArtistsAllTime, 
+                    pageEnd
+                ]
+            }
+        >
         </PageContainer>
         
     </div>
