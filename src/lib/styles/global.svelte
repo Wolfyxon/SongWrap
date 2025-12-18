@@ -66,5 +66,10 @@
             background-color: var(--panel);
             border-radius: 10px;
         }
+
+        .flex {
+            display: flex;
+            flex-direction: row;
+        }
     }
 </style>
