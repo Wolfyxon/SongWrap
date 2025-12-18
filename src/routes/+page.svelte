@@ -79,7 +79,7 @@
     #loading-offline-hint {
         opacity: 0;
         animation: fade-in 5s forwards;
-        animation-delay: 8s;
+        animation-delay: 6s;
     }
 </style>
 
