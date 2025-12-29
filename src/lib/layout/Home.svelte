@@ -9,10 +9,25 @@
 
     async function filesDropped(files: FileList) {
         const file = files[0];
+        let data: any;
 
-        // TODO: file validation
+        try {
+            data = JSON.parse(await file.text()) as StatsData;
+        } catch(e) {
+            return `Invalid file format: ${e}`;
+        }
+        
+        if(typeof(data) == "object" && Array.isArray(data)) {
+            return "Invalid file format: Expected Object got Array for root.";
+        }
 
-        const data = JSON.parse(await file.text()) as StatsData;
+        if(!data["songs"]) {
+            return "Invalid file format: missing 'songs' field";
+        }
+
+        if(!Array.isArray(data["songs"])) {
+            return "Invalid file format: 'songs' must be an array";
+        }
 
         setStats(new Stats(data));
     }
