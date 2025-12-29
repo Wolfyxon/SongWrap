@@ -7,6 +7,7 @@
 
     export let label: string | null = null;
     let errorString = "";
+    let loading = false;
 
     export let onDropped: OnDroppedCallback = (files) => {
         console.warn("Files were dropped but 'onDropped' callback is not set");
@@ -22,6 +23,8 @@
     async function filesDropped(files: FileList | null | undefined) {
         if(!files || files.length == 0)
             return;
+
+        loading = true;
 
         const errorRes: OnDroppedCallbackResult = await onDropped(files);
         const errType = typeof(errorRes);
@@ -40,6 +43,8 @@
             
                 break;
         }
+
+        loading = false;
     }
 
     function inputChange(e: Event) {
@@ -73,6 +78,7 @@
 
 <style>    
     .file-upload {
+        position: relative;
         text-align: center;
         border: var(--panel-outline) 2px solid;
         transition: 0.25s;
@@ -92,7 +98,7 @@
         padding: 20px;
     }
 
-    .file-upload-content h1 {
+    .file-upload-label {
         margin: 0;
     }
 
@@ -101,19 +107,44 @@
         height: 2em;
     }
 
+    .file-upload-loading {
+        background-color: var(--colorA);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.5s;
+    }
+
+    .file-upload-loading.visible {
+        opacity: 1;
+        pointer-events: unset;
+    }
+
 </style>
 
 <div class="file-upload panel" class:file-hover={fileHover}>
     <div class="file-upload-content">
         {#if label}
-            <h1>{label}</h1>
+            <h1 class="file-upload-label">{label}</h1>
         {/if}
 
         <div class="file-upload-error">
             {errorString}
         </div>
+
         <div>
             Drag and drop a file or use <input type="file" onchange={inputChange} aria-label="file picker" />
+        </div>
+
+        <div class="file-upload-loading" class:visible={loading}>
+            <h1>Processing...</h1>
         </div>
     </div>
 </div>
