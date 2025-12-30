@@ -1,6 +1,7 @@
 <script lang="ts">
     import { SongAPI } from "$lib/api/api";
     import ArtistList from "$lib/comp/ArtistList.svelte";
+    import CopyField from "$lib/comp/CopyField.svelte";
     import Counter from "$lib/comp/Counter.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
@@ -96,7 +97,9 @@
         {#snippet pageEnd()}
             <h1>{outroText}</h1>
             
-            <div style="text-align: center;">
+            <div style="text-align: center; margin: 0 auto; max-width: 500px">
+                <p>Share your stats!</p>
+                <CopyField value={window.location.href + "?s=" + stats.toBase64()} />
                 <LinkButton text="Home page" onClick={onClose} highlight />
             </div>
         {/snippet}
