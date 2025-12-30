@@ -72,12 +72,12 @@
 
             <div class="flex">
                 <Counter
-                    value={stats.artistCount}
+                    value={stats.data.artistCount}
                     label="Artists"
                 />
                 
                 <Counter 
-                    value={stats.songCount}
+                    value={stats.data.songCount}
                     label="Songs"
                 />
             </div>
@@ -85,12 +85,12 @@
 
         {#snippet pageFavSongsAllTime()}
             <h1>These are your favorite songs</h1>
-            <SongList songs={stats.topSongs} api={api} />
+            <SongList songs={stats.data.topSongs} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}
             <h1>And these are your favorite artists</h1>
-            <ArtistList artists={stats.topArtists} />
+            <ArtistList artists={stats.data.topArtists} />
         {/snippet}
 
         {#snippet pageEnd()}

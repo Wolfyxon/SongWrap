@@ -9,7 +9,7 @@ export type StatsData = {
     songs: SongData[]
 }
 
-export type ProcessedStats = {
+export type ProcessedStatsData = {
     topArtists: ArtistData[],
     topSongs: SongData[],
     songCount: number,
@@ -28,6 +28,14 @@ export type ArtistData = {
     totalPlays: number
 }
 
+export class ProcessedStats {
+    data: ProcessedStatsData;
+
+    constructor(data: ProcessedStatsData) {
+        this.data = data;
+    }
+}
+
 export class StatsProcessor {
     data: StatsData;
     
@@ -40,12 +48,14 @@ export class StatsProcessor {
     }
 
     getResult(config: StatsViewConfig): ProcessedStats {
-        return {
+        const data = {
             topArtists: this.getArtists(true).slice(0, config.artistRankCount),
             topSongs: this.data.songs.slice(0, config.songRankCount), // NOTE: songs are sorted upon initialization,
             songCount: this.data.songs.length,
             artistCount: this.getArtistNames().length
         };
+
+        return new ProcessedStats(data);
     }
 
     // Creates a data clone without songs that don't qualify for display
@@ -57,7 +67,7 @@ export class StatsProcessor {
             songs: []
         };
 
-        for(const song of statsResult.topSongs) {
+        for(const song of statsResult.data.topSongs) {
             newData.songs.push(song);
         } 
 

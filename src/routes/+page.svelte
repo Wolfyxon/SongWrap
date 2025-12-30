@@ -16,7 +16,7 @@
     let statsProcessed = false;
     let progress = 0;
     let progressMax = 0;
-    
+
     async function setStats(stats: ProcessedStats | null) {
         statsProcessed = false;
         progress = 0;
@@ -25,8 +25,8 @@
         if(stats) {
             api.setOffline(false);
 
-            const songs = stats.topSongs;
-            const artists = stats.topArtists;
+            const songs = stats.data.topSongs;
+            const artists = stats.data.topArtists;
             
             progressMax = songs.length * 3 + artists.length;
 
