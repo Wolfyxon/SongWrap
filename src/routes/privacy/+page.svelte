@@ -15,6 +15,12 @@
             This data is extracted in your browser and the file itself is not shared.
         </p>
         <p>
+            SongWrap also allows you to share your stats via URL. 
+            That URL does not point to any data on the website as it does not store your stats.
+            Your processed stats data is encoded in the URL and contains only the necessary information required to display the stats, everything
+            that's not needed is removed.
+        </p>
+        <p>
             <a href="https://metabrainz.org/privacy">MusicBrainz privacy policy</a>
         </p>
         <p>
