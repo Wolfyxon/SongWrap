@@ -95,11 +95,31 @@ export class StatsProcessor {
     }
 
     getResult(config: StatsViewConfig): ProcessedStats {
-        const topArtists = this.getArtists(true).slice(0, config.artistRankCount);
+        const allArtists = this.getArtists(true);
+        const topArtists = allArtists.slice(0, config.artistRankCount);
         const topSongs = this.getSongs().slice(0, config.songRankCount);  // NOTE: songs are sorted upon initialization,
 
-        const artists = topArtists;
+        const artists = [ ...topArtists ];
         const songs = topSongs;
+
+        for(const song of songs) {
+            let artistFound = false;
+
+            for(const artist of artists) {
+                if(artist.name == song.artist) {
+                    artistFound = true;
+                    break;
+                }
+            }
+
+            if(!artistFound) {
+                for(const artist of allArtists) {
+                    if(artist.name == song.artist) {
+                        artists.push(artist);
+                    }
+                }
+            }
+        }
 
         const artistNames: string[] = artists.map((a) => a.name);
 
