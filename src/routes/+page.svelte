@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { StatsProcessor, StatsData, StatsViewConfig, ProcessedStats } from "$lib/stats";
+    import { type StatsProcessor, type StatsData, type StatsViewConfig, ProcessedStats } from "$lib/stats";
     
     import Home from "$lib/layout/Home.svelte";
     import Page from "$lib/comp/Page.svelte";
@@ -11,6 +11,7 @@
     import LinkButton from "$lib/LinkButton.svelte";
     
     const api = new SongAPI();
+    let offlineFlag = false;
 
     let currentStats: ProcessedStats | null = null;
     let statsProcessed = false;
@@ -23,7 +24,7 @@
         currentStats = stats;
         
         if(stats) {
-            api.setOffline(false);
+            api.setOffline(offlineFlag);
 
             const songs = stats.data.songs;
             const artists = stats.data.artists;
@@ -79,6 +80,22 @@
         const urlSplit = window.location.href.split("?");
         const urlWithoutParams = urlSplit[0];
         window.history.pushState({}, document.title, urlWithoutParams);
+    }
+
+    if(!import.meta.env.SSR) {
+        const params = new URLSearchParams(window.location.search);
+        const base64 = params.get("s");
+        const offline = params.get("offline");
+        
+        if(offline) {
+            offlineFlag = true;
+        }
+
+        if(base64) {
+            setTimeout(() => {
+                setStats(ProcessedStats.fromBase64(base64));
+            });
+        }
     }
 </script>
 

@@ -30,19 +30,6 @@
     function getSampleStats(): ProcessedStats {
         return new StatsProcessor(sampleStats).getResult(statsConfig);
     }
-
-    if(!import.meta.env.SSR) {
-        const params = new URLSearchParams(window.location.search);
-        const base64 = params.get("s");
-        
-        if(base64) {
-            // Calling setStats immediately doesn't work
-            setTimeout(() => {
-                setStats(ProcessedStats.fromBase64(base64));
-            });
-        }
-    }
-
 </script>
 
 <style>
