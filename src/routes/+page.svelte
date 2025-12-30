@@ -4,7 +4,7 @@
     import Home from "$lib/layout/Home.svelte";
     import Page from "$lib/comp/Page.svelte";
     import StatsView from "$lib/layout/StatsView.svelte";
-    import { SongAPI } from "$lib/api/api";
+    import { SongAPI, type APIArtist } from "$lib/api/api";
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import { wait } from "$lib/util";
     import { preloadImage } from "$lib/util/dom";
@@ -25,15 +25,23 @@
         if(stats) {
             api.setOffline(false);
 
-            const songs = stats.data.topSongs;
-            const artists = stats.data.topArtists;
+            const songs = stats.data.songs;
+            const artists = stats.data.artists;
             
             progressMax = songs.length * 3 + artists.length;
-
+            
             for(let i = 0; i < songs.length; i++) {
                 const songStat = songs[i];
+                const artistData = artists[songStat.artist]
 
-                const artist = await api.queryArtistByName(songStat.artist);
+                let artist: APIArtist | undefined;
+
+                if(artistData) {
+                    artist = await api.queryArtistByName(artistData.name);
+                } else {
+                    console.warn(`Artist at index ${songStat.artist} not found. Song '${songStat.title}'`);
+                }
+
                 progress++;
 
                 const song = await api.querySongByName(songStat.title, artist?.id);
