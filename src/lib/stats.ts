@@ -115,8 +115,7 @@ export class StatsProcessor {
 
         const songs = topSongs;
         const artists = this.getArtistsOfSongs(songs);
-        console.log(artists)
-
+        
         const artistNames: string[] = artists.map((a) => a.name);
 
         const data = {
