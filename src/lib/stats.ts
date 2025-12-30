@@ -106,3 +106,27 @@ export class StatsProcessor {
         return res;
     }
 }
+
+export function parseStatsData(text: string): StatsData {
+    let data: any;
+    
+    try {
+        data = JSON.parse(text) as StatsData;
+    } catch(e) {
+        throw `Invalid file format: ${e}`;
+    }
+    
+    if(typeof(data) == "object" && Array.isArray(data)) {
+        throw "Invalid file format: Expected Object got Array for root.";
+    }
+
+    if(!data["songs"]) {
+        throw "Invalid file format: missing 'songs' field";
+    }
+
+    if(!Array.isArray(data["songs"])) {
+        throw "Invalid file format: 'songs' must be an array";
+    }
+
+    return data;
+}

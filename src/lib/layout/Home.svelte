@@ -3,7 +3,7 @@
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import { sampleStats } from "$lib/sampleStats";
-    import { StatsProcessor, type ProcessedStats, type StatsData, type StatsViewConfig } from "$lib/stats";
+    import { parseStatsData, StatsProcessor, type ProcessedStats, type StatsData, type StatsViewConfig } from "$lib/stats";
 
     export let setStats: (stats: ProcessedStats) => any;
 
@@ -14,26 +14,14 @@
 
     async function filesDropped(files: FileList) {
         const file = files[0];
-        let data: any;
+        let data: StatsData;
 
         try {
-            data = JSON.parse(await file.text()) as StatsData;
-        } catch(e) {
-            return `Invalid file format: ${e}`;
+            data = parseStatsData(await file.text());
+        } catch (e) {
+            return String(e);
         }
         
-        if(typeof(data) == "object" && Array.isArray(data)) {
-            return "Invalid file format: Expected Object got Array for root.";
-        }
-
-        if(!data["songs"]) {
-            return "Invalid file format: missing 'songs' field";
-        }
-
-        if(!Array.isArray(data["songs"])) {
-            return "Invalid file format: 'songs' must be an array";
-        }
-
         const processor = new StatsProcessor(data);
 
         setStats(processor.getResult(statsConfig));
