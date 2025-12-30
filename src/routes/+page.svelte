@@ -9,6 +9,7 @@
     import { wait } from "$lib/util";
     import { preloadImage } from "$lib/util/dom";
     import LinkButton from "$lib/LinkButton.svelte";
+    import { removeUrlParams } from "$lib/util/string";
     
     const api = new SongAPI();
     let offlineFlag = false;
@@ -77,10 +78,7 @@
 
     function reset() {
         setStats(null);
-
-        const urlSplit = window.location.href.split("?");
-        const urlWithoutParams = urlSplit[0];
-        window.history.pushState({}, document.title, urlWithoutParams);
+        window.history.pushState({}, document.title, removeUrlParams(window.location.href));
     }
 
     if(!import.meta.env.SSR) {
