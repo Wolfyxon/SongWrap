@@ -9,6 +9,13 @@ export type StatsData = {
     songs: SongData[]
 }
 
+export type ProcessedStats = {
+    topArtists: ArtistData[],
+    topSongs: SongData[],
+    songCount: number,
+    artistCount: number
+}
+
 export type SongData = {
     path?: string,
     title: string,
@@ -30,6 +37,31 @@ export class Stats {
         this.data.songs.sort((a, b) => {
             return b.totalPlays - a.totalPlays;
         });
+    }
+
+    getResult(config: StatsViewConfig): ProcessedStats {
+        return {
+            topArtists: this.getArtists(true).slice(0, config.artistRankCount),
+            topSongs: this.data.songs.slice(0, config.songRankCount), // NOTE: songs are sorted upon initialization,
+            songCount: this.data.songs.length,
+            artistCount: this.getArtistNames().length
+        };
+    }
+
+    // Creates a data clone without songs that don't qualify for display
+    getStrippedData(config: StatsViewConfig) {
+        const statsResult = this.getResult(config);
+
+        const newData: StatsData = {
+            formatVersion: this.data.formatVersion,
+            songs: []
+        };
+
+        for(const song of statsResult.topSongs) {
+            newData.songs.push(song);
+        } 
+
+        return newData;
     }
 
     getArtistNames(): string[] {
