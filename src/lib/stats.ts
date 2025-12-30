@@ -1,3 +1,4 @@
+import { indicesToValues, valuesToIndices } from "./util/array"
 import { base64decodeString, base64encodeString } from "./util/string"
 
 export type StatsViewConfig = {
@@ -11,8 +12,10 @@ export type StatsData = {
 }
 
 export type ProcessedStatsData = {
-    topArtists: ArtistData[],
-    topSongs: SongData[],
+    songs: StrippedSongData[],
+    artists: ArtistData[],
+    topArtists: number[],
+    topSongs: number[],
     songCount: number,
     artistCount: number
 }
@@ -21,6 +24,12 @@ export type SongData = {
     path?: string,
     title: string,
     artist: string,
+    totalPlays: number
+}
+
+export type StrippedSongData = {
+    title: string,
+    artist: number, // artist index
     totalPlays: number
 }
 
@@ -48,9 +57,24 @@ export class ProcessedStats {
         const text = base64decodeString(base64);
         return this.parse(text);
     }
- 
+
     toBase64(): string {
         return base64encodeString(JSON.stringify(this.data));
+    }
+
+    unstripSong(song: StrippedSongData): SongData {
+        return {
+            ...song,
+            artist: this.data.artists[song.artist]?.name ?? "unknown"
+        }
+    }
+
+    getTopSongs(): SongData[] {
+        return indicesToValues(this.data.songs, this.data.topSongs).map((s) => this.unstripSong(s));
+    }
+
+    getTopArtists(): ArtistData[] {
+        return indicesToValues(this.data.artists, this.data.topArtists);
     }
 }
 
@@ -65,31 +89,33 @@ export class StatsProcessor {
         });
     }
 
+    stripSong(song: SongData, artistNames: string[]): StrippedSongData {
+        return {
+            ...song,
+            artist: artistNames.indexOf(song.artist),
+        }
+    }
+
     getResult(config: StatsViewConfig): ProcessedStats {
+        const topArtists = this.getArtists(true).slice(0, config.artistRankCount);
+        const topSongs = this.getSongs().slice(0, config.songRankCount);  // NOTE: songs are sorted upon initialization,
+
+        const artists = topArtists;
+        const songs = topSongs;
+
+        const artistNames: string[] = artists.map((a) => a.name);
+
         const data = {
-            topArtists: this.getArtists(true).slice(0, config.artistRankCount),
-            topSongs: this.getSongs().slice(0, config.songRankCount), // NOTE: songs are sorted upon initialization,
+            songs: songs.map((s) => this.stripSong(s, artistNames)),
+            artists: artists,
+
+            topArtists: valuesToIndices(topArtists, artists),
+            topSongs: valuesToIndices(topSongs, songs),
             songCount: this.data.songs.length,
             artistCount: this.getArtistNames().length
         };
 
         return new ProcessedStats(data);
-    }
-
-    // Creates a data clone without songs that don't qualify for display
-    getStrippedData(config: StatsViewConfig) {
-        const statsResult = this.getResult(config);
-
-        const newData: StatsData = {
-            formatVersion: this.data.formatVersion,
-            songs: []
-        };
-
-        for(const song of statsResult.data.topSongs) {
-            newData.songs.push(song);
-        } 
-
-        return newData;
     }
 
     // Gets songs but removes the sensitive 'path' property

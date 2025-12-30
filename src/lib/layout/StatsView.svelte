@@ -86,12 +86,12 @@
 
         {#snippet pageFavSongsAllTime()}
             <h1>These are your favorite songs</h1>
-            <SongList songs={stats.data.topSongs} api={api} />
+            <SongList songs={stats.getTopSongs()} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}
             <h1>And these are your favorite artists</h1>
-            <ArtistList artists={stats.data.topArtists} />
+            <ArtistList artists={stats.getTopArtists()} />
         {/snippet}
 
         {#snippet pageEnd()}
