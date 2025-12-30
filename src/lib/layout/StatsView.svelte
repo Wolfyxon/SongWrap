@@ -9,6 +9,7 @@
     import type { ProcessedStats } from "$lib/stats";
     import { STATS_INTROS, STATS_OUTROS } from "$lib/strings";
     import { randChoice } from "$lib/util/array";
+    import { removeUrlParams } from "$lib/util/string";
 
     export let stats: ProcessedStats;
     export let api: SongAPI;
@@ -17,6 +18,7 @@
 
     const introText = randChoice(STATS_INTROS);
     const outroText = randChoice(STATS_OUTROS);
+    const shareURL = removeUrlParams(window.location.href) + "?s=" + stats.toBase64();
 
     let currentPage = 0;
     const pageCount = 5;
@@ -99,7 +101,7 @@
             
             <div style="text-align: center; margin: 0 auto; max-width: 500px">
                 <p>Share your stats!</p>
-                <CopyField value={window.location.href + "?s=" + stats.toBase64()} />
+                <CopyField value={shareURL} />
                 <LinkButton text="Home page" onClick={onClose} highlight />
             </div>
         {/snippet}

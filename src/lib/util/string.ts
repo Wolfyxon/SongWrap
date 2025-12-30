@@ -1,3 +1,10 @@
+
+export function removeUrlParams(url: string): string {
+    const split = url.split("?");
+
+    return split[0];
+}
+
 /* base64 */
 export function base64EncodeBytes(bytes: Uint8Array): string {
     const binStr = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
