@@ -21,10 +21,14 @@
             that's not needed is removed.
         </p>
         <p>
+            <b>Important:</b> Please be reminded that once you share that URL with someone it may not be undone.
+            As mentioned in the section above, the stats are encoded inside the URL text.
+        </p>
+        <p>
             <a href="https://metabrainz.org/privacy">MusicBrainz privacy policy</a>
         </p>
         <p>
-            This website does not store any user data.
+            SongWrap does not store any user data.
         </p>
     </div>
 </Page>
