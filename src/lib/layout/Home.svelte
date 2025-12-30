@@ -3,9 +3,14 @@
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import { sampleStats } from "$lib/sampleStats";
-    import { Stats, type StatsData } from "$lib/stats";
+    import { StatsProcessor, type ProcessedStats, type StatsData, type StatsViewConfig } from "$lib/stats";
 
-    export let setStats: (stats: Stats) => any;
+    export let setStats: (stats: ProcessedStats) => any;
+
+    const statsConfig: StatsViewConfig = {
+        songRankCount: 4,
+        artistRankCount: 3
+    };
 
     async function filesDropped(files: FileList) {
         const file = files[0];
@@ -29,8 +34,15 @@
             return "Invalid file format: 'songs' must be an array";
         }
 
-        setStats(new Stats(data));
+        const processor = new StatsProcessor(data);
+
+        setStats(processor.getResult(statsConfig));
     }
+
+    function getSampleStats(): ProcessedStats {
+        return new StatsProcessor(sampleStats).getResult(statsConfig);
+    }
+
 </script>
 
 <style>
@@ -55,7 +67,7 @@
     <FileUpload label="Upload a stat file" onDropped={filesDropped} />
 
     <div style="text-align: center; padding: 10px;">
-        <LinkButton text="Try a sample" onClick={() => setStats(new Stats(sampleStats))} highlight/>
+        <LinkButton text="Try a sample" onClick={() => setStats(getSampleStats())} highlight/>
     </div>
 
     <div>

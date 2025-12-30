@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Stats, StatsData, StatsViewConfig } from "$lib/stats";
+    import type { StatsProcessor, StatsData, StatsViewConfig, ProcessedStats } from "$lib/stats";
     
     import Home from "$lib/layout/Home.svelte";
     import Page from "$lib/comp/Page.svelte";
@@ -12,17 +12,12 @@
     
     const api = new SongAPI();
 
-    let currentStats: Stats | null = null;
+    let currentStats: ProcessedStats | null = null;
     let statsProcessed = false;
     let progress = 0;
     let progressMax = 0;
-
-    const config: StatsViewConfig = {
-        songRankCount: 4,
-        artistRankCount: 3
-    };
-
-    async function setStats(stats: Stats | null) {
+    
+    async function setStats(stats: ProcessedStats | null) {
         statsProcessed = false;
         progress = 0;
         currentStats = stats;
@@ -30,8 +25,10 @@
         if(stats) {
             api.setOffline(false);
 
-            const songs = stats.data.songs.slice(0, config.songRankCount);
-            progressMax = songs.length * 3;
+            const songs = stats.topSongs;
+            const artists = stats.topArtists;
+            
+            progressMax = songs.length * 3 + artists.length;
 
             for(let i = 0; i < songs.length; i++) {
                 const songStat = songs[i];
@@ -46,6 +43,16 @@
                     await preloadImage(song.coverArt, 2000);
                 }
 
+                progress++;
+
+                // Account for rate limit
+                if(i % 20 == 0) {
+                    await wait(1000);
+                }
+            }
+
+            for(let i = 0; i <artists.length; i++) {
+                await api.queryArtistByName(artists[i].name);
                 progress++;
 
                 // Account for rate limit
@@ -91,7 +98,7 @@
 <Page>
     {#if currentStats && statsProcessed}
         <StatsView 
-            stats={currentStats.getResult(config)}
+            stats={currentStats}
             api={api}
             onClose={() => setStats(null)} 
         />

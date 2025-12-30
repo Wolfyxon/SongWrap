@@ -5,10 +5,10 @@
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
-    import type { ProcessedStats, Stats, StatsViewConfig } from "$lib/stats";
+    import type { ProcessedStats } from "$lib/stats";
     import { STATS_INTROS, STATS_OUTROS } from "$lib/strings";
     import { randChoice } from "$lib/util/array";
-    
+
     export let stats: ProcessedStats;
     export let api: SongAPI;
 

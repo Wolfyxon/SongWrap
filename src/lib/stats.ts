@@ -28,7 +28,7 @@ export type ArtistData = {
     totalPlays: number
 }
 
-export class Stats {
+export class StatsProcessor {
     data: StatsData;
     
     constructor(data: StatsData) {
