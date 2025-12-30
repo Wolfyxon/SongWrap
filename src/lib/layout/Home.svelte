@@ -3,7 +3,7 @@
     import ProgressBar from "$lib/comp/ProgressBar.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import { sampleStats } from "$lib/sampleStats";
-    import { parseStatsData, StatsProcessor, type ProcessedStats, type StatsData, type StatsViewConfig } from "$lib/stats";
+    import { parseStatsData, ProcessedStats, StatsProcessor, type StatsData, type StatsViewConfig } from "$lib/stats";
 
     export let setStats: (stats: ProcessedStats) => any;
 
@@ -29,6 +29,18 @@
 
     function getSampleStats(): ProcessedStats {
         return new StatsProcessor(sampleStats).getResult(statsConfig);
+    }
+
+    if(!import.meta.env.SSR) {
+        const params = new URLSearchParams(window.location.search);
+        const base64 = params.get("s");
+        
+        if(base64) {
+            // Calling setStats immediately doesn't work
+            setTimeout(() => {
+                setStats(ProcessedStats.fromBase64(base64));
+            });
+        }
     }
 
 </script>

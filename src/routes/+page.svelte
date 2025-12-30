@@ -64,6 +64,14 @@
             statsProcessed = true;
         }
     }
+
+    function reset() {
+        setStats(null);
+
+        const urlSplit = window.location.href.split("?");
+        const urlWithoutParams = urlSplit[0];
+        window.history.pushState({}, document.title, urlWithoutParams);
+    }
 </script>
 
 <style>
@@ -100,7 +108,7 @@
         <StatsView 
             stats={currentStats}
             api={api}
-            onClose={() => setStats(null)} 
+            onClose={reset} 
         />
     {:else if currentStats && !statsProcessed}
         <div id="loading">
