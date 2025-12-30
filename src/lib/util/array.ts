@@ -41,3 +41,19 @@ export function indicesToValues<T>(array: T[], indices: number[]): T[] {
 
     return res;
 }
+
+export function pushIfMissing<T>(array: T[], value: T): T[] {
+    if(!array.includes(value)) {
+        array.push(value);
+    }
+
+    return array;
+}
+
+export function pushAllIfMissing<T>(array: T[], values: T[]): T[] {
+    for(const v of values) {
+        pushIfMissing(array, v);
+    }
+    
+    return array;
+}

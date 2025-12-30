@@ -1,3 +1,4 @@
+import { pushAllIfMissing, pushIfMissing } from "./util/array";
 import { base64decodeString, base64encodeString } from "./util/string";
 
 export type StatsViewConfig = {
@@ -93,32 +94,28 @@ export class StatsProcessor {
         }
     }
 
-    getResult(config: StatsViewConfig): ProcessedStats {
-        const allArtists = this.getArtists(true);
-        const topArtists = allArtists.slice(0, config.artistRankCount);
-        const topSongs = this.getSongs().slice(0, config.songRankCount);  // NOTE: songs are sorted upon initialization,
-
-        const artists = [ ...topArtists ];
-        const songs = topSongs;
+    getArtistsOfSongs(songs: SongData[], artists?: ArtistData[]): ArtistData[] {
+        artists = artists ?? this.getArtists(true);
+        
+        const res: ArtistData[] = [];
 
         for(const song of songs) {
-            let artistFound = false;
-
             for(const artist of artists) {
                 if(artist.name == song.artist) {
-                    artistFound = true;
-                    break;
-                }
-            }
-
-            if(!artistFound) {
-                for(const artist of allArtists) {
-                    if(artist.name == song.artist) {
-                        artists.push(artist);
-                    }
+                    pushIfMissing(res, artist);
                 }
             }
         }
+
+        return res;
+    }
+
+    getResult(config: StatsViewConfig): ProcessedStats {
+        const topSongs = this.getSongs().slice(0, config.songRankCount);  // NOTE: songs are sorted upon initialization,
+
+        const songs = topSongs;
+        const artists = this.getArtistsOfSongs(songs);
+        console.log(artists)
 
         const artistNames: string[] = artists.map((a) => a.name);
 
