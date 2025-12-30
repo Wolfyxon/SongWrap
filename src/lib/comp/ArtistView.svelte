@@ -34,6 +34,7 @@
         height: 150px;
         background: var(--panel-dark);
         border-radius: 100%;
+        border: 2px solid var(--panel-outline);
     }
 
     .artist-name {
