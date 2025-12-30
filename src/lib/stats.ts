@@ -14,8 +14,6 @@ export type StatsData = {
 export type ProcessedStatsData = {
     songs: StrippedSongData[],
     artists: ArtistData[],
-    topArtists: number[],
-    topSongs: number[],
     songCount: number,
     artistCount: number
 }
@@ -69,12 +67,12 @@ export class ProcessedStats {
         }
     }
 
-    getTopSongs(): SongData[] {
-        return indicesToValues(this.data.songs, this.data.topSongs).map((s) => this.unstripSong(s));
+    getTopSongs(count: number = 5): SongData[] {
+        return this.data.songs.slice(0, count).map((s) => this.unstripSong(s));
     }
 
-    getTopArtists(): ArtistData[] {
-        return indicesToValues(this.data.artists, this.data.topArtists);
+    getTopArtists(count: number = 5): ArtistData[] {
+        return this.data.artists.slice(0, count);
     }
 }
 
@@ -108,9 +106,6 @@ export class StatsProcessor {
         const data = {
             songs: songs.map((s) => this.stripSong(s, artistNames)),
             artists: artists,
-
-            topArtists: valuesToIndices(topArtists, artists),
-            topSongs: valuesToIndices(topSongs, songs),
             songCount: this.data.songs.length,
             artistCount: this.getArtistNames().length
         };
