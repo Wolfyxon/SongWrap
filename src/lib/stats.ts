@@ -1,3 +1,4 @@
+import { base64decodeString, base64encodeString } from "./util/string"
 
 export type StatsViewConfig = {
     songRankCount: number,
@@ -33,6 +34,23 @@ export class ProcessedStats {
 
     constructor(data: ProcessedStatsData) {
         this.data = data;
+    }
+
+    static parse(text: string): ProcessedStats {
+        const data = JSON.parse(text);
+
+        // TODO: Validate the JSON structure
+
+        return new ProcessedStats(data as ProcessedStatsData);
+    }
+
+    static fromBase64(base64: string): ProcessedStats {
+        const text = base64decodeString(base64);
+        return this.parse(text);
+    }
+ 
+    toBase64(): string {
+        return base64encodeString(JSON.stringify(this.data));
     }
 }
 
