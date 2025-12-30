@@ -12,10 +12,11 @@
     .copy-field {
         display: flex;
         padding: 5px;
+        max-width: 95vw;
         border: 1px solid var(--panel-outline);
         background-color: var(--panel-dark);
         border-radius: 10px;
-        margin: 10px 0;
+        margin: 10px auto;
         gap: 10px;
         white-space: nowrap;
     }
