@@ -91,9 +91,8 @@
 <Page>
     {#if currentStats && statsProcessed}
         <StatsView 
-            stats={currentStats}
+            stats={currentStats.getResult(config)}
             api={api}
-            config={config}
             onClose={() => setStats(null)} 
         />
     {:else if currentStats && !statsProcessed}

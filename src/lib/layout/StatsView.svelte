@@ -5,12 +5,11 @@
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
-    import type { Stats, StatsViewConfig } from "$lib/stats";
+    import type { ProcessedStats, Stats, StatsViewConfig } from "$lib/stats";
     import { STATS_INTROS, STATS_OUTROS } from "$lib/strings";
     import { randChoice } from "$lib/util/array";
-
-    export let config: StatsViewConfig;
-    export let stats: Stats;
+    
+    export let stats: ProcessedStats;
     export let api: SongAPI;
 
     export let onClose: () => any = () => console.warn("onClose not set")
@@ -73,12 +72,12 @@
 
             <div class="flex">
                 <Counter
-                    value={stats.getArtists().length}
+                    value={stats.artistCount}
                     label="Artists"
                 />
                 
                 <Counter 
-                    value={stats.data.songs.length}
+                    value={stats.songCount}
                     label="Songs"
                 />
             </div>
@@ -86,12 +85,12 @@
 
         {#snippet pageFavSongsAllTime()}
             <h1>These are your favorite songs</h1>
-            <SongList songs={stats.data.songs.slice(0, config.songRankCount)} api={api} />
+            <SongList songs={stats.topSongs} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}
             <h1>And these are your favorite artists</h1>
-            <ArtistList artists={stats.getArtists(true).slice(0, config.artistRankCount)} />
+            <ArtistList artists={stats.topArtists} />
         {/snippet}
 
         {#snippet pageEnd()}
