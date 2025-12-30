@@ -1,3 +1,13 @@
+export function capitalize(text: string): string {
+    if(text.length == 0) {
+        return text;
+    }
+    
+    const split = text.split("");
+    split[0] = split[0].toUpperCase();
+
+    return split.join("");
+}
 
 export function removeUrlParams(url: string): string {
     const split = url.split("?");

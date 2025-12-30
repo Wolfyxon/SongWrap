@@ -17,6 +17,7 @@
     let statsProcessed = false;
     let progress = 0;
     let progressMax = 0;
+    let shareName: string | null = null;
 
     async function setStats(stats: ProcessedStats | null) {
         statsProcessed = false;
@@ -86,12 +87,19 @@
         const params = new URLSearchParams(window.location.search);
         const base64 = params.get("s");
         const offline = params.get("offline");
-        
+        const paramShareName = params.get("name");
+
         if(offline) {
             offlineFlag = true;
         }
 
         if(base64) {
+            if(paramShareName) {
+                shareName = paramShareName;
+            } else {
+                shareName = "Someone";
+            }
+
             setTimeout(() => {
                 setStats(ProcessedStats.fromBase64(base64));
             });
@@ -133,7 +141,8 @@
         <StatsView 
             stats={currentStats}
             api={api}
-            onClose={reset} 
+            onClose={reset}
+            receivedShareName={shareName}
         />
     {:else if currentStats && !statsProcessed}
         <div id="loading">

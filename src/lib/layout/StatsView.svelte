@@ -9,19 +9,29 @@
     import type { ProcessedStats } from "$lib/stats";
     import { STATS_INTROS, STATS_OUTROS } from "$lib/strings";
     import { randChoice } from "$lib/util/array";
-    import { removeUrlParams } from "$lib/util/string";
+    import { capitalize, removeUrlParams } from "$lib/util/string";
 
     export let stats: ProcessedStats;
     export let api: SongAPI;
+    export let receivedShareName: string | null = null;
 
     export let onClose: () => any = () => console.warn("onClose not set")
 
     const introText = randChoice(STATS_INTROS);
     const outroText = randChoice(STATS_OUTROS);
-    const shareURL = removeUrlParams(window.location.href) + "?s=" + stats.toBase64();
+    const defaultName = "someone";
 
+    let shareName: string | undefined;
+    let pronoun1 = "you";
+    let pronoun2 = "your";
+    
     let currentPage = 0;
     const pageCount = 5;
+
+    if(receivedShareName) {
+        pronoun1 = "they";
+        pronoun2 = "their";
+    }
 
     function prev() {
         if(currentPage > 0) {
@@ -67,11 +77,17 @@
 <div id="stats-view-main">
     <div id="stats-view-content">
         {#snippet pageIntro()}
-            <h1>{introText}</h1>
+            <h1>
+                {#if receivedShareName}
+                    {receivedShareName} wants to show you their music taste!
+                {:else}
+                    {introText}
+                {/if}
+            </h1>
         {/snippet}
 
         {#snippet numStats()}
-            <h1>You listened to</h1>
+            <h1>{capitalize(pronoun1)} listened to</h1>
 
             <div class="flex">
                 <Counter
@@ -87,21 +103,45 @@
         {/snippet}
 
         {#snippet pageFavSongsAllTime()}
-            <h1>These are your favorite songs</h1>
+            <h1>These are {pronoun2} favorite songs</h1>
             <SongList songs={stats.getTopSongs()} api={api} />
         {/snippet}
 
         {#snippet pageFavArtistsAllTime()}
-            <h1>And these are your favorite artists</h1>
+            <h1>And these are {pronoun2} favorite artists</h1>
             <ArtistList artists={stats.getTopArtists()} />
         {/snippet}
 
         {#snippet pageEnd()}
             <h1>{outroText}</h1>
-            
+
             <div style="text-align: center; margin: 0 auto; max-width: 500px">
-                <p>Share your stats!</p>
-                <CopyField value={shareURL} />
+                {#if !receivedShareName}
+                    <h2>Share your stats!</h2>
+                    <label for="name-inp">Your name: (optional)</label>
+                    
+                    <input
+                        type="text" 
+                        maxlength="28" 
+                        bind:value={shareName} 
+                        placeholder={defaultName}
+                        id="name-inp" 
+                    />
+                    
+                    <CopyField value={
+                        (() => {
+                            let nameParam = "";
+                            const statsParam = `s=${stats.toBase64()}`;
+
+                            if(shareName && shareName.length != 0 && shareName != defaultName) {
+                                nameParam = `name=${shareName}&`;
+                            }
+
+                            return `${removeUrlParams(window.location.href)}?${nameParam}${statsParam}`
+                        })()
+                    } />
+                {/if}
+
                 <LinkButton text="Home page" onClick={onClose} highlight />
             </div>
         {/snippet}

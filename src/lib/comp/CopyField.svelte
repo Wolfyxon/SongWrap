@@ -12,6 +12,7 @@
     .copy-field {
         display: flex;
         padding: 5px;
+        width: 100%;
         max-width: 95vw;
         border: 1px solid var(--panel-outline);
         background-color: var(--panel-dark);

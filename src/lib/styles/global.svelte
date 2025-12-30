@@ -32,6 +32,25 @@
             height: 95%;
         }
 
+        input[type="text"] {
+            display: block;
+            color: white;
+            padding: 5px;
+            margin: 10px auto;
+            width: 100%;
+            max-width: 95vw;
+            border: 2px solid var(--panel-outline);
+            background-color: var(--panel-dark);
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            
+            background-color: var(--panel);
+        }
+
         button {
             background: var(--panel);
             min-width: 100px;
