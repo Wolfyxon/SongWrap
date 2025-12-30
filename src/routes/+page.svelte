@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { type StatsProcessor, type StatsData, type StatsViewConfig, ProcessedStats } from "$lib/stats";
-    
+    import { ProcessedStats } from "$lib/stats";
     import Home from "$lib/layout/Home.svelte";
     import Page from "$lib/comp/Page.svelte";
     import StatsView from "$lib/layout/StatsView.svelte";

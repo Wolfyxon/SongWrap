@@ -1,5 +1,4 @@
-import { indicesToValues, valuesToIndices } from "./util/array"
-import { base64decodeString, base64encodeString } from "./util/string"
+import { base64decodeString, base64encodeString } from "./util/string";
 
 export type StatsViewConfig = {
     songRankCount: number,
