@@ -17,6 +17,7 @@
         border-radius: 10px;
         margin: 10px 0;
         gap: 10px;
+        white-space: nowrap;
     }
 
     .copy-field-text {
@@ -49,7 +50,7 @@
         height: 100%;
         transition: 0.15s;
     }
-    
+
     .copy-field-btn:active img {
         scale: 0.9;
     }
