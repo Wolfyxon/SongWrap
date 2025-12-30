@@ -22,10 +22,11 @@
     }
 
     .copy-field-text {
-        opacity: 0.8;
+        opacity: 0.7;
         padding: 15px;
         flex: 1;
-        overflow: scroll;
+        overflow-x: scroll;
+        scrollbar-color: white black;
     }
 
     .copy-field-btn {
@@ -48,6 +49,8 @@
     }
 
     .copy-field-btn img {
+        object-fit: contain;
+        width: 100%;
         height: 100%;
         transition: 0.15s;
     }
