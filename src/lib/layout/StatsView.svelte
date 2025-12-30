@@ -19,7 +19,7 @@
 
     const introText = randChoice(STATS_INTROS);
     const outroText = randChoice(STATS_OUTROS);
-    const defaultName = "someone";
+    const defaultName = "Someone";
 
     let shareName: string | undefined;
     let pronoun1 = "you";
