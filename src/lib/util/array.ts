@@ -27,3 +27,17 @@ export function valuesToIndices(array: any[], values: any[]): number[] {
 
     return res;
 }
+
+export function indicesToValues<T>(array: T[], indices: number[]): T[] {
+    const res: T[] = [];
+
+    for(const idx of indices) {
+        const val = array[idx];
+
+        if(val !== undefined) {
+            res.push(val);
+        }
+    }
+
+    return res;
+}
