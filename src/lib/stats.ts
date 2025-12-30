@@ -68,7 +68,7 @@ export class StatsProcessor {
     getResult(config: StatsViewConfig): ProcessedStats {
         const data = {
             topArtists: this.getArtists(true).slice(0, config.artistRankCount),
-            topSongs: this.data.songs.slice(0, config.songRankCount), // NOTE: songs are sorted upon initialization,
+            topSongs: this.getSongs().slice(0, config.songRankCount), // NOTE: songs are sorted upon initialization,
             songCount: this.data.songs.length,
             artistCount: this.getArtistNames().length
         };
@@ -90,6 +90,16 @@ export class StatsProcessor {
         } 
 
         return newData;
+    }
+
+    // Gets songs but removes the sensitive 'path' property
+    getSongs(): SongData[] {
+        return this.data.songs.map((v) => {
+            const song = { ...v };
+            song.path = undefined;
+
+            return song;
+        });
     }
 
     getArtistNames(): string[] {
