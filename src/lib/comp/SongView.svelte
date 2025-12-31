@@ -45,15 +45,16 @@
             padding: 20px;
         }
     </style>
-{:else}
+{:else if displayMode == "square"}
     <style>
         .song {
             display: flex;
             flex-direction: column;
             width: fit-content;
             text-align: center;
+            align-items: center;
+            width: 180px;
         }
-
 
         .song-icon {
             width: 170px;
