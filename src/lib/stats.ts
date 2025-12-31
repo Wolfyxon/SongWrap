@@ -22,7 +22,9 @@ export type SongData = {
     path?: string,
     title: string,
     artist: string,
-    totalPlays: number
+    totalPlays: number,
+    firstPlay: number,
+    lastPlay: number
 }
 
 export type StrippedSongData = {
