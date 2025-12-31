@@ -90,7 +90,7 @@
         {/snippet}
 
         {#snippet obsession()}
-            <h1>{capitalize(pronoun2)} were most obsessed about</h1>
+            <h1>{capitalize(pronoun1)} were most obsessed about</h1>
             
             <style>
                 #obsession-list > * {
