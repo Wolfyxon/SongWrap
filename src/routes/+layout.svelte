@@ -10,7 +10,7 @@
 
 <svelte:head>
 	<title>SongWrap</title>
-	<meta name="description" content="Import and view your listening stats in a fancy way." />
+	<meta name="description" content="Import, view and share your listening habits in a fancy way! All free and open source." />
 	<link rel="icon" href={favicon} />
 
 	<GlobalStyle/>
