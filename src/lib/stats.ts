@@ -46,11 +46,19 @@ export type ArtistData = {
     totalPlays: number
 }
 
+const DEFAULT_CONFIG: StatsViewConfig = {
+    songRankCount: 4,
+    artistRankCount: 3,
+    songObsessionCount: 1
+};
+
 export class ProcessedStats {
     data: ProcessedStatsData;
+    config: StatsViewConfig;
 
-    constructor(data: ProcessedStatsData) {
+    constructor(data: ProcessedStatsData, config: StatsViewConfig = DEFAULT_CONFIG) {
         this.data = data;
+        this.config = config;
     }
 
     static parse(text: string): ProcessedStats {
@@ -79,12 +87,12 @@ export class ProcessedStats {
         }
     }
 
-    getTopSongs(count: number = 5): SongData[] {
-        return this.data.songs.slice(0, count).map((s) => this.unstripSong(s));
+    getTopSongs(count?: number): SongData[] {
+        return this.data.songs.slice(0, count ?? this.config.songRankCount).map((s) => this.unstripSong(s));
     }
 
-    getTopArtists(count: number = 5): ArtistData[] {
-        return this.data.artists.slice(0, count);
+    getTopArtists(count?: number): ArtistData[] {
+        return this.data.artists.slice(0, count ?? this.config.artistRankCount);
     }
 
     getSongsByObsession(): SongData[] {
@@ -141,7 +149,7 @@ export class StatsProcessor {
         return res;
     }
 
-    getResult(config: StatsViewConfig): ProcessedStats {
+    getResult(config: StatsViewConfig = DEFAULT_CONFIG): ProcessedStats {
         const topSongs = this.getSongs().slice(0, config.songRankCount);
         const obsessiveSongs = this.getSongsByObsession(config.songObsessionCount);
 

@@ -6,12 +6,6 @@
 
     export let setStats: (stats: ProcessedStats) => any;
 
-    const statsConfig: StatsViewConfig = {
-        songRankCount: 4,
-        artistRankCount: 3,
-        songObsessionCount: 1
-    };
-
     async function filesDropped(files: FileList) {
         const file = files[0];
         let data: StatsData;
@@ -24,11 +18,11 @@
         
         const processor = new StatsProcessor(data);
 
-        setStats(processor.getResult(statsConfig));
+        setStats(processor.getResult());
     }
 
     function getSampleStats(): ProcessedStats {
-        return new StatsProcessor(sampleStats).getResult(statsConfig);
+        return new StatsProcessor(sampleStats).getResult();
     }
 </script>
 
