@@ -55,7 +55,7 @@
 
 
         .song-icon {
-            width: 150px;
+            width: 170px;
         }
     </style>
 {/if}

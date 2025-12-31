@@ -11,6 +11,18 @@
         }
     }
 
+    @keyframes -global-pulse {
+        0% {
+            scale: 1;
+        }
+        50% {
+            scale: 0.8;
+        }
+        100% {
+            scale: 1;
+        }
+    }
+
     @keyframes -global-fade-in {
         0% {
             opacity: 0;

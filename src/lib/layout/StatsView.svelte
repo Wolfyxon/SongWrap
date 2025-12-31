@@ -90,7 +90,13 @@
         {#snippet obsession()}
             <h1>{capitalize(pronoun2)} were most obsessed about</h1>
             
-            <div class="center-container">
+            <style>
+                #obsession-list > * {
+                    animation: pulse 1s infinite;
+                }
+            </style>
+
+            <div class="center-container" id="obsession-list">
                 <SongView data={stats.getSongsByObsession()[0]} api={api} />
             </div>
         {/snippet}
