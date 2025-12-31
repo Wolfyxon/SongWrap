@@ -8,7 +8,8 @@
 
     const statsConfig: StatsViewConfig = {
         songRankCount: 4,
-        artistRankCount: 3
+        artistRankCount: 3,
+        songObsessionCount: 1
     };
 
     async function filesDropped(files: FileList) {

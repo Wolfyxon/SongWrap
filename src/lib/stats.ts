@@ -1,9 +1,10 @@
-import { pushAllIfMissing, pushIfMissing } from "./util/array";
+import { indicesToValues, pushAllIfMissing, pushIfMissing, valuesToIndices } from "./util/array";
 import { base64decodeString, base64encodeString } from "./util/string";
 
 export type StatsViewConfig = {
     songRankCount: number,
-    artistRankCount: number    
+    artistRankCount: number,
+    songObsessionCount: number
 }
 
 export type StatsData = {
@@ -14,6 +15,7 @@ export type StatsData = {
 export type ProcessedStatsData = {
     songs: StrippedSongData[],
     artists: ArtistData[],
+    songsByObsession: number[],
     songCount: number,
     artistCount: number
 }
@@ -23,16 +25,16 @@ export type SongData = {
     title: string,
     artist: string,
     totalPlays: number,
-    firstPlay: number,
-    lastPlay: number
+    firstPlay?: number,
+    lastPlay?: number
 }
 
 export type StrippedSongData = {
     title: string,
     artist: number, // artist index
     totalPlays: number,
-    firstPlay: number,
-    lastPlay: number
+    /*firstPlay: number,
+    lastPlay: number*/
 }
 
 export type ArtistData = {
@@ -67,7 +69,9 @@ export class ProcessedStats {
     unstripSong(song: StrippedSongData): SongData {
         return {
             ...song,
-            artist: this.data.artists[song.artist]?.name ?? "unknown"
+            artist: this.data.artists[song.artist]?.name ?? "unknown",
+            lastPlay: 0,
+            firstPlay: 0
         }
     }
 
@@ -77,6 +81,10 @@ export class ProcessedStats {
 
     getTopArtists(count: number = 5): ArtistData[] {
         return this.data.artists.slice(0, count);
+    }
+
+    getSongsByObsession(): SongData[] {
+        return indicesToValues(this.data.songs, this.data.songsByObsession).map((s) => this.unstripSong(s))
     }
 }
 
@@ -89,6 +97,19 @@ export class StatsProcessor {
         this.data.songs.sort((a, b) => {
             return b.totalPlays - a.totalPlays;
         });
+    }
+
+    getSongObsessionRatio(song: SongData): number {
+        if(song.firstPlay === undefined || song.lastPlay === undefined) {
+            return 0;
+        }
+
+        const dayDuration = 60 * 60 * 24;
+        const timeSinceLastPlay = song.lastPlay - song.firstPlay;
+        const daysSinceLastPlay = timeSinceLastPlay / dayDuration;
+        const recency = 1 / (1 + daysSinceLastPlay);
+
+        return song.totalPlays * recency;
     }
 
     stripSong(song: SongData, artistNames: string[]): StrippedSongData {
@@ -116,8 +137,11 @@ export class StatsProcessor {
 
     getResult(config: StatsViewConfig): ProcessedStats {
         const topSongs = this.getSongs().slice(0, config.songRankCount);  // NOTE: songs are sorted upon initialization,
+        const obsessiveSongs = this.getSongsByObsession(config.songObsessionCount);
 
         const songs = topSongs;
+        pushAllIfMissing(songs, obsessiveSongs);
+
         const artists = this.getArtistsOfSongs(songs);
         
         const artistNames: string[] = artists.map((a) => a.name);
@@ -126,10 +150,25 @@ export class StatsProcessor {
             songs: songs.map((s) => this.stripSong(s, artistNames)),
             artists: artists,
             songCount: this.data.songs.length,
-            artistCount: this.getArtistNames().length
+            artistCount: this.getArtistNames().length,
+            songsByObsession: valuesToIndices(songs, obsessiveSongs)
         };
 
         return new ProcessedStats(data);
+    }
+
+    getSongsByObsession(max?: number): SongData[] {
+        const songs = [ ...this.data.songs];
+        
+        songs.sort((a, b) => {
+            return this.getSongObsessionRatio(b) - this.getSongObsessionRatio(a);
+        });
+
+        if(max) {
+            return songs.slice(0, max);
+        }
+
+        return songs;
     }
 
     // Gets songs but removes the sensitive 'path' property

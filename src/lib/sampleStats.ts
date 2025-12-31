@@ -6,12 +6,14 @@ export const sampleStats: StatsData = {
         {
             title: "Du Hast",
             artist: "Rammstein",
-            totalPlays: 10
+            totalPlays: 10,
+            firstPlay: 1735645860,
+            lastPlay: 1765713060
         },
         {
             title: "Giftig",
             artist: "Rammstein",
-            totalPlays: 35
+            totalPlays: 35,
         },
         {
             title: "Armee der Tristen",

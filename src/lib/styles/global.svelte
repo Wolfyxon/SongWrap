@@ -86,6 +86,15 @@
             border-radius: 10px;
         }
 
+        .center-container {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .flex {
             display: flex;
             flex-direction: row;

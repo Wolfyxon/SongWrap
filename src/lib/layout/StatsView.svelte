@@ -5,6 +5,7 @@
     import Counter from "$lib/comp/Counter.svelte";
     import PageContainer from "$lib/comp/PageContainer.svelte";
     import SongList from "$lib/comp/SongList.svelte";
+    import SongView from "$lib/comp/SongView.svelte";
     import LinkButton from "$lib/LinkButton.svelte";
     import type { ProcessedStats } from "$lib/stats";
     import { STATS_INTROS, STATS_OUTROS } from "$lib/strings";
@@ -26,7 +27,7 @@
     let pronoun2 = "your";
     
     let currentPage = 0;
-    const pageCount = 5;
+    const pageCount = 6;
 
     if(receivedShareName) {
         pronoun1 = "they";
@@ -86,6 +87,14 @@
             </h1>
         {/snippet}
 
+        {#snippet obsession()}
+            <h1>{capitalize(pronoun2)} were most obsessed about</h1>
+            
+            <div class="center-container">
+                <SongView data={stats.getSongsByObsession()[0]} api={api} />
+            </div>
+        {/snippet}
+
         {#snippet numStats()}
             <h1>{capitalize(pronoun1)} listened to</h1>
 
@@ -115,7 +124,7 @@
         {#snippet pageEnd()}
             <h1>{outroText}</h1>
 
-            <div style="text-align: center; margin: 0 auto; max-width: 500px">
+            <div class="center-container">
                 {#if !receivedShareName}
                     <h2>Share your stats!</h2>
                     <label for="name-inp">Your name: (optional)</label>
@@ -151,7 +160,8 @@
             pages={
                 [
                     pageIntro,
-                    numStats, 
+                    numStats,
+                    obsession,
                     pageFavSongsAllTime, 
                     pageFavArtistsAllTime, 
                     pageEnd
