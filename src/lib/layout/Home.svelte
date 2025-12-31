@@ -54,7 +54,7 @@
     <div>
         <h2>How to get the stats file?</h2>
         <p>
-            Currently only Audacious with the <a href="https://github.com/Wolfyxon/AudaciousStats">AudaciousStats</a> plugin is supported, but
+            Currently only <span translate="no">Audacious</span> with the <a href="https://github.com/Wolfyxon/AudaciousStats" translate="no">AudaciousStats</a> plugin is supported, but
             you can create your own program or plugin to collect stats. <br/>
             See the <a href="https://github.com/wolfyxon/songwrap?tab=readme-ov-file#data-format">format specification</a>.
         </p>

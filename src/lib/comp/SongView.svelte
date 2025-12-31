@@ -96,8 +96,8 @@
         src={icon}
     />
     <div class="song-text">
-        <div class="song-title">{data.title}</div>
-        <div class="song-artist">{data.artist}</div>
+        <div class="song-title" translate="no">{data.title}</div>
+        <div class="song-artist" translate="no">{data.artist}</div>
         
         {#if showPlays}
             <div class="song-plays">Played {data.totalPlays} times</div>

@@ -56,7 +56,7 @@
     />
 
     <div class="artist-text">
-        <div class="artist-name">
+        <div class="artist-name" translate="no">
             {data.name}
         </div>
 

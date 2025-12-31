@@ -34,6 +34,6 @@
         <a href="https://github.com/Wolfyxon/SongWrap">Source code</a>
     </div>
     <div id="footer-author">
-        made by Wolfyxon
+        made by <span translate="no">Wolfyxon</span>
     </div>
 </footer>

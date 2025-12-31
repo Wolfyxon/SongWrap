@@ -63,7 +63,7 @@
 </style>
 
 <div class="copy-field">
-    <div class="copy-field-text">
+    <div class="copy-field-text" translate="no">
         {value}
     </div>
     <button class="copy-field-btn" onclick={copy}>
