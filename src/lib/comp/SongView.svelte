@@ -38,6 +38,7 @@
 
         .song-icon {
             width: 100px;
+            height: 100px;
         }
 
         .song-text {
@@ -58,6 +59,7 @@
 
         .song-icon {
             width: 170px;
+            height: 170px;
         }
     </style>
 {/if}
