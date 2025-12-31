@@ -22,6 +22,8 @@
     const outroText = randChoice(STATS_OUTROS);
     const defaultName = "Someone";
 
+    const obsessedSong = stats.getSongsByObsession()[0];
+
     let shareName: string | undefined;
     let pronoun1 = "you";
     let pronoun2 = "your";
@@ -97,7 +99,11 @@
             </style>
 
             <div class="center-container" id="obsession-list">
-                <SongView data={stats.getSongsByObsession()[0]} api={api} />
+                {#if obsessedSong}
+                    <SongView data={obsessedSong} api={api} />
+                {:else}
+                    <div>Oops! Something went wrong</div>
+                {/if}
             </div>
         {/snippet}
 
