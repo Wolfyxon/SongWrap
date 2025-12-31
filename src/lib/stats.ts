@@ -1,4 +1,4 @@
-import { indicesToValues, pushAllIfMissing, pushIfMissing, valuesToIndices } from "./util/array";
+import { indicesToValues, pushIfMissing } from "./util/array";
 import { base64decodeString, base64encodeString } from "./util/string";
 
 interface PlayCounted {
@@ -113,6 +113,50 @@ export class StatsProcessor {
         return array.sort((a, b) => b.totalPlays - a.totalPlays);
     }
 
+    static songEquals(a: SongData, b: SongData): boolean {
+        return a.title == b.title && a.artist == b.artist;
+    }
+
+    static pushSongIfMissing(songs: SongData[], song: SongData) {
+        for(const s of songs) {
+            if(s.title == song.title && s.artist == song.artist) {
+                return;
+            }
+        }
+
+        songs.push(song);
+    }
+
+    static pushAllSongsIfMissing(songs: SongData[], newSongs: SongData[]) {
+        for(const song of newSongs) {
+            this.pushSongIfMissing(songs ,song);
+        }
+    }
+
+    static indexOfSong(songs: SongData[], song: SongData): number {
+        for(let i = 0; i < songs.length; i++) {
+            if(this.songEquals(songs[i], song)) {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+
+    static songsToIndices(songs: SongData[], songsToIndex: SongData[]): number[] {
+        const res: number[] = [];
+
+        for(const song of songsToIndex) {
+            const idx = this.indexOfSong(songs, song);
+
+            if(idx != -1) {
+                res.push(idx);
+            }
+        }
+
+        return res;
+    }
+
     getSongObsessionRatio(song: SongData): number {
         if(song.firstPlay === undefined || song.lastPlay === undefined) {
             return 0;
@@ -154,7 +198,8 @@ export class StatsProcessor {
         const obsessiveSongs = this.getSongsByObsession(config.songObsessionCount);
 
         const songs = topSongs;
-        pushAllIfMissing(songs, obsessiveSongs);
+        StatsProcessor.pushAllSongsIfMissing(songs, obsessiveSongs);
+
         StatsProcessor.sortByTotalPlays(songs);
 
         const artists = this.getArtistsOfSongs(songs);
@@ -167,7 +212,7 @@ export class StatsProcessor {
             artists: artists,
             songCount: this.data.songs.length,
             artistCount: this.getArtistNames().length,
-            songsByObsession: valuesToIndices(songs, obsessiveSongs)
+            songsByObsession: StatsProcessor.songsToIndices(songs, obsessiveSongs)
         };
 
         return new ProcessedStats(data);
