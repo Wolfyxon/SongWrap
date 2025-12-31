@@ -1,6 +1,9 @@
 import { indicesToValues, pushAllIfMissing, pushIfMissing, valuesToIndices } from "./util/array";
-import { Random } from "./util/math";
 import { base64decodeString, base64encodeString } from "./util/string";
+
+interface PlayCounted {
+    totalPlays: number;
+}
 
 export type StatsViewConfig = {
     songRankCount: number,
@@ -95,9 +98,11 @@ export class StatsProcessor {
     constructor(data: StatsData) {
         this.data = data;
 
-        this.data.songs.sort((a, b) => {
-            return b.totalPlays - a.totalPlays;
-        });
+        StatsProcessor.sortByTotalPlays(this.data.songs);
+    }
+
+    static sortByTotalPlays(array: PlayCounted[]): PlayCounted[] {
+        return array.sort((a, b) => b.totalPlays - a.totalPlays);
     }
 
     getSongObsessionRatio(song: SongData): number {
@@ -137,14 +142,16 @@ export class StatsProcessor {
     }
 
     getResult(config: StatsViewConfig): ProcessedStats {
-        const topSongs = this.getSongs().slice(0, config.songRankCount);  // NOTE: songs are sorted upon initialization,
+        const topSongs = this.getSongs().slice(0, config.songRankCount);
         const obsessiveSongs = this.getSongsByObsession(config.songObsessionCount);
 
         const songs = topSongs;
         pushAllIfMissing(songs, obsessiveSongs);
+        StatsProcessor.sortByTotalPlays(songs);
 
         const artists = this.getArtistsOfSongs(songs);
-        
+        StatsProcessor.sortByTotalPlays(artists);
+
         const artistNames: string[] = artists.map((a) => a.name);
 
         const data = {
