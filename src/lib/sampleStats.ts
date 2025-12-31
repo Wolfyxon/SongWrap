@@ -104,13 +104,6 @@ export const sampleStats: StatsData = {
             lastPlay: 1767095808
         },
         {
-            title: "To the Bone",
-            artist: "JT Music",
-            totalPlays: 7,
-            firstPlay: 1766351203,
-            lastPlay: 1766371203
-        },
-        {
             title: "I love the piano",
             artist: "Kasso",
             totalPlays: 4,
