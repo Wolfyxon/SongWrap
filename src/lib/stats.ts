@@ -30,7 +30,9 @@ export type SongData = {
 export type StrippedSongData = {
     title: string,
     artist: number, // artist index
-    totalPlays: number
+    totalPlays: number,
+    firstPlay: number,
+    lastPlay: number
 }
 
 export type ArtistData = {
