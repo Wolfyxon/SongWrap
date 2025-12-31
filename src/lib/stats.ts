@@ -1,4 +1,5 @@
 import { indicesToValues, pushAllIfMissing, pushIfMissing, valuesToIndices } from "./util/array";
+import { Random } from "./util/math";
 import { base64decodeString, base64encodeString } from "./util/string";
 
 export type StatsViewConfig = {

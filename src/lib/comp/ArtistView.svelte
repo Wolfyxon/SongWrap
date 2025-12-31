@@ -1,6 +1,7 @@
 <script lang="ts">
-    import type { ArtistData } from "$lib/stats";
+    import { type ArtistData } from "$lib/stats";
     import defaultIcon from "$lib/assets/artist.svg";
+    import { getStringColor } from "$lib/util";
 
     export let data: ArtistData;
     export let animIndex: number | null = null;
@@ -48,7 +49,11 @@
     class:animated={animIndex != null}
     style={animIndex != null ? `--anim-delay: ${(animIndex) * 0.25}s` : undefined} 
 >
-    <img src={defaultIcon} alt="Artist logo" />
+    <img 
+        src={defaultIcon} 
+        alt="Artist logo"
+        style={`background-color: ${getStringColor(data.name)};`} 
+    />
 
     <div class="artist-text">
         <div class="artist-name">

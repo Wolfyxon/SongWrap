@@ -2,6 +2,7 @@
     import type { SongAPI } from "$lib/api/api";
     import defaultIcon from "$lib/assets/note.svg";
     import type { SongData } from "$lib/stats";
+    import { getStringColor } from "$lib/util";
     
     let icon = defaultIcon;
 
@@ -90,7 +91,8 @@
     <img 
         alt="Cover art" 
         class="song-icon"
-        src={icon} 
+        style={`background-color: ${getStringColor(data.title + "-" + data.artist)}`}
+        src={icon}
     />
     <div class="song-text">
         <div class="song-title">{data.title}</div>
