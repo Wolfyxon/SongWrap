@@ -57,7 +57,7 @@
                 progress++;
 
                 // Account for rate limit
-                if(i % 20 == 0) {
+                if(i % 20 == 0 && !api.isOffline()) {
                     await wait(1000);
                 }
             }
@@ -67,7 +67,7 @@
                 progress++;
 
                 // Account for rate limit
-                if(i % 20 == 0) {
+                if(i % 20 == 0 && !api.isOffline()) {
                     await wait(1000);
                 }
             }
