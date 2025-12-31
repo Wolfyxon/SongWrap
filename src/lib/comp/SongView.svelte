@@ -8,6 +8,8 @@
     export let data: SongData;
     export let api: SongAPI | null = null;
     export let animIndex: number | null = null;
+    export let displayMode: "square" | "entry" = "square";
+    export let showPlays: boolean = false;
 
     async function load() {
         if(api) {
@@ -23,29 +25,50 @@
     load();
 </script>
 
-<style>
-    .song {
-        display: flex;
-        background: var(--panel);
-        width: 100%;
-        margin-bottom: 5px;
-        height: 100px;
-    }
+{#if displayMode == "entry"}
+    <style>
+        .song {
+            display: flex;
+            background: var(--panel);
+            width: 100%;
+            margin-bottom: 5px;
+            height: 100px;
+        }
 
+        .song-icon {
+            width: 100px;
+        }
+
+        .song-text {
+            flex: 1;
+            padding: 20px;
+        }
+    </style>
+{:else}
+    <style>
+        .song {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            text-align: center;
+        }
+
+
+        .song-icon {
+            width: 150px;
+        }
+    </style>
+{/if}
+
+<style>
     .song.animated {
         animation: slide-in-bottom var(--anim-duration);
     }
 
     .song-icon {
-        width: 100px;
-        height: 100%;
-        object-fit: cover;
-        background: var(--panel-dark);
-    }
-
-    .song-text {
-        flex: 1;
-        padding: 20px;
+            height: 100%;
+            object-fit: cover;
+            background: var(--panel-dark);
     }
 
     .song-title {
@@ -55,6 +78,7 @@
 
     .song-plays {
         opacity: 0.8;
+        font-size: 95%;
     }
 </style>
 
@@ -71,6 +95,9 @@
     <div class="song-text">
         <div class="song-title">{data.title}</div>
         <div class="song-artist">{data.artist}</div>
-        <div class="song-plays">Played {data.totalPlays} times</div>
+        
+        {#if showPlays}
+            <div class="song-plays">Played {data.totalPlays} times</div>
+        {/if}
     </div>
 </div>
