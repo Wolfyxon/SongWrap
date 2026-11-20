@@ -259,6 +259,11 @@ export class StatsProcessor {
         const res: ArtistData[] = [];
 
         for(const song of this.data.songs) {
+            if(!song.artist) {
+                console.error("Missing arist in song: ", song);
+                continue;
+            }
+
             const artistId = song.artist.toLowerCase().trim();
             
             if(!artistEntries[artistId]) {
